@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <script src="content_script.js"></script>
+
+        <link rel="stylesheet" href="stylesheet.css">
+        <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
+        
+    </head>
+    <body>
+
+        <!--=================================
+        HEADER -->
+        <header>
+            
+            <div id="add-word-drawer">
+                <input id="add-word-input" type="checkbox" class="add-word-unshown">
+                <label id="add-word-open" for="add-word-input"><span class="add-word-btn">Add a new word</span></label>
+                <label id="add-word-close" class="nadd-word-unshown" for="add-word-input"></label>
+                <div id="add-word-content">
+                    <div class="content-container">
+
+                        <!-- content of add-word-drawer -->
+                        <div class="add-word-title">
+                            Let's add new word in your dictionary.
+                        </div>
+                        
+                        <form action="">
+                            
+                            <p>Word</p>
+                            <input type="text">
+                            
+                            <p>Tags</p>
+                            <label>
+                                <input type="checkbox">
+                                <span>Verb</span>
+                            </label>
+
+                            <p>Meaning</p>
+                            <textarea name="" id="" cols="30" rows="10"></textarea>
+
+                            <p>Category</p>
+                            <label>
+                                <input type="radio">
+                                <span>Programming</span>
+                            </label>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            <form action="">
+                <input class="search-input" type="text" placeholder="Search">
+                <submit class="search-submit" type="submit"></submit>
+            </form>
+
+            <div id="nav-drawer">
+                <input id="nav-input" type="checkbox" class="nav-unshown">
+                <label id="nav-open" for="nav-input"><span></span></label>
+                <label id="nav-close" class="nav-unshown" for="nav-input"></label>
+                <div id="nav-content">
+                    contents
+                </div>
+            </div>
+
+        </header>
+
+        <!--=================================
+        MAIN SECTION-->
+        <main>
+            <ul class="words-ul">
+                <li class="flexbox">
+                    <div class="main-word">function</div>
+                    <span class="main-tag">Verb</span>
+                    <p class="main-meaning">a relation or expression involving one or more variables.
+                            an activity that is natural to or the purpose of a person or thing.</p>
+                </li>
+                <li class="flexbox">
+                    <p class="main-word">function</p>
+                    <div>
+                        <span class="main-tag">Verb</span>
+                        <span class="main-tag">Adjective</span>
+                    </div>
+                    <p class="main-meaning">a relation or expression involving one or more variables.
+                            an activity that is natural to or the purpose of a person or thing.<i class="fas fa-edit"></i></p>
+                </li>
+            </ul>
+        </main>
+
+    </body>
+</html>

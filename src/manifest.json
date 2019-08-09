@@ -3,6 +3,10 @@
   "description": "Plain memo specialized in vocabrary. You can build your own dictionary.",
   "version": "0.1.0",
   "manifest_version": 2,
+  "browser_action":{
+    "default_title": "Your Own Dictionary",
+      "default_popup": "popup.html"
+  },
   "content_scripts": [{
     "matches": [ "http://*/*", "https://*/*" ],
     "js": ["jquery-2.2.0.min.js", "ChEx.js", "content_script.js"]
