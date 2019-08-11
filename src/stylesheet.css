@@ -17,6 +17,10 @@ body {
     overflow: hidden;
 }
 
+button, input, textarea {
+    font-family: 'Lato', sans-serif;
+}
+
 header {
     padding: 10px;
     background-color: #79DBA6;
@@ -141,6 +145,7 @@ header {
     -webkit-transform: translateY(0%);
     transform: translateY(0%);
     box-shadow: 6px 0 25px rgba(0,0,0,.15);
+    background-color: #FBFCF0;
 }
 
 #nav-input:checked ~ #nav-content {
@@ -210,10 +215,90 @@ main {
     font-size: .8rem;
 }
 
-.add-word-content {
-    background-color: #FBFCF0;
-}
-
 .content-container {
     padding: 30px;
+}
+
+.content-titles {
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+/*
+#
+#        Add word form
+#
+*/
+
+.add-word-form {
+    position: relative;
+}
+
+.word-input {
+    padding: 10px 20px;
+    width: 100%;
+    font-size: 1.2rem;
+    border: dashed #707070;
+    border-width: 0px 0px 1px 0px;
+    box-sizing: border-box;
+    background: unset;
+    text-decoration: none;
+    outline: none;
+}
+
+.tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 15px;
+    border: dashed #707070;
+    border-width: 0px 0px 1px 0px;
+}
+
+.tag-container div {
+    margin-top: 15px;
+}
+
+.tag-container div input {
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+}
+
+.tag-container div label {
+    margin-right: 20px;
+    margin-bottom: 10px; 
+    padding: 3px 10px;
+    background: white;
+    border-radius: 15px;
+    position: relative;
+    transition: .2s;
+}
+
+
+.tag-container div input:checked + label {
+    background: grey;
+    color: #fff;
+    border: none;
+}
+
+#meaning-textarea {
+    margin: 10px 0;
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    background: content-box;
+    border: 1px dashed #707070;
+    border-radius: 15px;
+    outline: none;
+    font-size: .8rem;
+}
+
+.add-word-submit {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.category-container label {
+    margin-left: 10px;
 }

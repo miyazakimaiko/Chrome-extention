@@ -23,29 +23,61 @@
                     <div class="content-container">
 
                         <!-- content of add-word-drawer -->
-                        <div class="add-word-title">
-                            Let's add new word in your dictionary.
-                        </div>
-                        
-                        <form action="">
+                        <form class="add-word-form" action="">
                             
-                            <p>Word</p>
-                            <input type="text">
+                            <p class="content-titles">Vocabulary</p>
+                            <input class="word-input" type="text">
                             
-                            <p>Tags</p>
-                            <label>
-                                <input type="checkbox">
-                                <span>Verb</span>
-                            </label>
+                            <p class="content-titles">Tags</p>
+                            <div class="tag-container">
+                                <div>
+                                    <input id="verb-input" type="checkbox">
+                                    <label for="verb-input">Verb</label>
+                                </div>
+                                <div>
+                                    <input id="noun-input" type="checkbox">
+                                    <label for="noun-input">Noun</label>
+                                </div>
+                                <div>
+                                    <input id="adj-input" type="checkbox">
+                                    <label for="adj-input">Adjective</label>
+                                </div>
+                                <div>
+                                    <input id="adj-input" type="checkbox">
+                                    <label for="adj-input">Adjective</label>
+                                </div>
+                                <div>
+                                    <input id="adj-input" type="checkbox">
+                                    <label for="adj-input">Adjective</label>
+                                </div>
+                                <div>
+                                    <input id="adj-input" type="checkbox">
+                                    <label for="adj-input">Adjective</label>
+                                </div>
+                            </div>
 
-                            <p>Meaning</p>
-                            <textarea name="" id="" cols="30" rows="10"></textarea>
+                            <div class="meaning-container">
+                                <p class="content-titles">Meaning</p>
+                                <textarea name="" id="meaning-textarea" cols="30" rows="10"></textarea>
+                            </div>
 
-                            <p>Category</p>
-                            <label>
-                                <input type="radio">
-                                <span>Programming</span>
-                            </label>
+                            <div class="category-container">
+                                <p class="content-titles">Category</p>
+                                <label>
+                                    <input type="radio" name="category" checked>
+                                    <span>Programming</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="category">
+                                    <span>Music</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="category">
+                                    <span>Life</span>
+                                </label>
+                            </div>
+
+                            <button class="add-word-btn add-word-submit" type="submit">Submit</button>
 
                         </form>
 
@@ -63,7 +95,16 @@
                 <label id="nav-open" for="nav-input"><span></span></label>
                 <label id="nav-close" class="nav-unshown" for="nav-input"></label>
                 <div id="nav-content">
-                    contents
+                    <div class="content-container">
+
+                        <!-- nav-drawer contents-->
+                        <big>Category</big>
+                        <div>
+                            <p>Programming</p>
+<!--=======================================================================Finished here. Making nav drawer contents....-->
+                        </div>
+
+                    </div><!-- content-container -->
                 </div>
             </div>
 
@@ -73,21 +114,42 @@
         MAIN SECTION-->
         <main>
             <ul class="words-ul">
+
                 <li class="flexbox">
-                    <div class="main-word">function</div>
-                    <span class="main-tag">Verb</span>
-                    <p class="main-meaning">a relation or expression involving one or more variables.
-                            an activity that is natural to or the purpose of a person or thing.</p>
-                </li>
-                <li class="flexbox">
-                    <p class="main-word">function</p>
+                    <div class="main-word">merge</div>
                     <div>
                         <span class="main-tag">Verb</span>
+                    </div>
+                    <p class="main-meaning">Process of taking two or more groups of data and combining the data into a single unified set.</p>
+                </li>
+
+                <li class="flexbox">
+                    <p class="main-word">attribute</p>
+                    <div>
+                        <span class="main-tag">Noun</span>
                         <span class="main-tag">Adjective</span>
                     </div>
-                    <p class="main-meaning">a relation or expression involving one or more variables.
-                            an activity that is natural to or the purpose of a person or thing.<i class="fas fa-edit"></i></p>
+                    <p class="main-meaning">Specification that defines a property of an object, element, or file. It may also refer to or set the specific value for a given instance of such.</p>
                 </li>
+
+                <li class="flexbox">
+                    <p class="main-word">argument</p>
+                    <div>
+                        <span class="main-tag">Adverb</span>
+                        <span class="main-tag">Adjective</span>
+                    </div>
+                    <p class="main-meaning">A value that is passed into a command or a function. For example, if SQR is a routine or function that returns the square of a number, then SQR(4) will return 16. Here, the value 4 is the argument.</p>
+                </li>
+
+                <li class="flexbox">
+                    <p class="main-word">Variable</p>
+                    <div>
+                        <span class="main-tag">Noun</span>
+                        <span class="main-tag">Adjective</span>
+                    </div>
+                    <p class="main-meaning">A location which stores temporary data within a program which can be modified, store and display whenever need.</p>
+                </li>
+
             </ul>
         </main>
 
