@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
 
-        <script src="content_script.js"></script>
+        <script src="load.js"></script>
 
         <link rel="stylesheet" href="stylesheet.css">
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
@@ -23,42 +23,18 @@
                     <div class="content-container">
 
                         <!-- content of add-word-drawer -->
-                        <form class="add-word-form" action="">
+                        <form class="add-word-form" id="add-word-form">
                             
-                            <p class="content-titles">Vocabulary</p>
-                            <input class="word-input" type="text">
+                            <label for="vocabulary" class="content-titles">Vocabulary</label>
+                            <input id="vocabulary" class="word-input" type="text">
                             
                             <p class="content-titles">Tags</p>
-                            <div class="tag-container">
-                                <div>
-                                    <input id="verb-input" type="checkbox">
-                                    <label for="verb-input">Verb</label>
-                                </div>
-                                <div>
-                                    <input id="noun-input" type="checkbox">
-                                    <label for="noun-input">Noun</label>
-                                </div>
-                                <div>
-                                    <input id="adj-input" type="checkbox">
-                                    <label for="adj-input">Adjective</label>
-                                </div>
-                                <div>
-                                    <input id="adj-input" type="checkbox">
-                                    <label for="adj-input">Adjective</label>
-                                </div>
-                                <div>
-                                    <input id="adj-input" type="checkbox">
-                                    <label for="adj-input">Adjective</label>
-                                </div>
-                                <div>
-                                    <input id="adj-input" type="checkbox">
-                                    <label for="adj-input">Adjective</label>
-                                </div>
+                            <div class="tag-container" id="tag-container">
                             </div>
 
                             <div class="meaning-container">
-                                <p class="content-titles">Meaning</p>
-                                <textarea name="" id="meaning-textarea" cols="30" rows="10"></textarea>
+                                <label for="meaning" class="content-titles">Meaning</label>
+                                <textarea name="meaning" id="meaning-textarea" cols="30" rows="10"></textarea>
                             </div>
 
                             <div class="category-container">
@@ -114,15 +90,15 @@
                             </div>
                         </div>
 
-                        <form class="add-container" action="">
+                        <form class="add-container" id="add-category">
                             <big>Add Category</big>
-                            <input class="category-input" type="text">
+                            <input class="category-input" id="category-input" type="text">
                             <button type="submit">Submit</button>
                         </form>
 
-                        <form class="add-container" action="">
+                        <form class="add-container" id="add-tags">
                             <big>Add Tag</big>
-                            <input class="tag-input" type="text">
+                            <input class="tag-input" id="tag-input" type="text">
                             <button type="submit">Submit</button>
                         </form>
 
@@ -138,7 +114,7 @@
             <ul class="words-ul">
 
                 <li class="flexbox">
-                    <div class="main-word">merge</div>
+                    <p class="main-word" id="main-word"></p>
                     <div>
                         <span class="main-tag">Verb</span>
                     </div>
@@ -175,5 +151,6 @@
             </ul>
         </main>
 
+    <script src="save.js"></script>
     </body>
 </html>
