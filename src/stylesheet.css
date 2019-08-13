@@ -273,6 +273,7 @@ main {
     border-radius: 15px;
     position: relative;
     transition: .2s;
+    cursor: pointer;
 }
 
 

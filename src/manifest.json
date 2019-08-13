@@ -9,7 +9,7 @@
   },
   "content_scripts": [{
     "matches": [ "http://*/*", "https://*/*" ],
-    "js": ["jquery-2.2.0.min.js", "ChEx.js", "content_script.js"]
+    "js": [ "load.js", "save.js" ]
   }],
   "permissions": [
     "storage"
