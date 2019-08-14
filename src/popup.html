@@ -32,25 +32,12 @@
                             <div class="tag-container" id="tag-container"></div>
 
                             <div class="meaning-container">
-                                <label for="meaning" class="content-titles">Meaning</label>
-                                <textarea name="meaning" id="meaning-textarea" cols="30" rows="10"></textarea>
+                                <p class="content-titles">Meaning</p>
+                                <textarea name="meaning" id="meaning-textarea" cols="30" rows="5"></textarea>
                             </div>
 
-                            <div class="category-container">
-                                <p class="content-titles">Category</p>
-                                <label>
-                                    <input type="radio" name="category" checked>
-                                    <span>Programming</span>
-                                </label>
-                                <label>
-                                    <input type="radio" name="category">
-                                    <span>Music</span>
-                                </label>
-                                <label>
-                                    <input type="radio" name="category">
-                                    <span>Life</span>
-                                </label>
-                            </div>
+                            <p class="content-titles">Category</p>
+                            <div class="category-container" id="category-container"></div>
 
                             <button class="add-word-btn add-word-submit" type="submit">Submit</button>
 
@@ -73,20 +60,8 @@
                     <div class="content-container">
 
                         <!-- nav-drawer contents-->
-                        <div>
+                        <div id="nav-cat-container">
                             <big>Category</big>
-        
-                            <div>
-                                <a href="">Programming</a>
-                            </div>
-
-                            <div>
-                                <a href="">Yoga</a>
-                            </div>
-
-                            <div>
-                                <a href="">Music</a>
-                            </div>
                         </div>
 
                         <form class="add-container" id="add-tags">

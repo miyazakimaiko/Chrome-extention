@@ -296,14 +296,18 @@ main {
 }
 
 .add-word-submit {
-    position: absolute;
-    bottom: 0;
-    right: 0;
+    float: right;
     cursor: pointer;
+}
+
+.category-container {
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .category-container label {
     margin-left: 10px;
+    white-space: nowrap;
 }
 
 /*
