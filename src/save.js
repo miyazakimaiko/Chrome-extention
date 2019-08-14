@@ -30,19 +30,53 @@ document.getElementById('add-category').onsubmit = function(){
 
 
 // Add words
-// Still working on this part--------------------------------------------
 document.getElementById('add-word-form').onsubmit = function(){
     
     chrome.storage.local.get({ wordInfo:[] }, function(items) {
 
-        let newWord = [];
+        let newWord = { word:'', tag:[], category:'', meanings:'' };
 
-        let word = document.getElementById('vocabulary').value;
+        // Push word
+        let vocab = document.getElementById('vocabulary').value;
+        newWord.word = vocab;
 
-        let tags = 
-        items.wordInfo.push({ wordInfo:newWord });
+        // Push meaning
+        let meaning = document.getElementById('meaning-textarea').value;
+        newWord.meanings = meaning;
 
-        let newTags = 
+        // Push tag
+        let tagEl = document.getElementById('tag-container');
+
+        let tags = tagEl.getElementsByTagName('input');
+
+        for (let i=0, len=tags.length; i<len; i++ ) {
+            
+            if (tags[i].checked) {
+
+                let checkedLabel = document.getElementById(`tag${i}-label`).textContent;
+                newWord.tag.push(checkedLabel);
+
+            }
+
+        }
+
+        // Push category
+        let catEl = document.getElementById('category-container');
+
+        let cat = catEl.getElementsByTagName('input');
+
+        for (let i=0, len=cat.length; i<len; i++ ) {
+            
+            if (cat[i].checked) {
+
+                let checkedSpan = document.getElementById(`cat${i}-span`).textContent;
+                newWord.category = checkedSpan;
+
+            }
+
+        }
+
+        items.wordInfo.push(newWord); 
 
         chrome.storage.local.set(items);
 

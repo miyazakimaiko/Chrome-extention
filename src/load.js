@@ -16,6 +16,7 @@ chrome.storage.local.get({ tagData:[] }, function(items) {
     const tagLabel = document.createElement('label')
     tagLabel.textContent = items.tagData[i];
     tagLabel.setAttribute('for', `tag${i}-input`)
+    tagLabel.setAttribute('id', `tag${i}-label`)
 
     tagContainer.appendChild(tagDiv)
     tagDiv.appendChild(tagInput)
@@ -41,6 +42,8 @@ chrome.storage.local.get({ catData:[] }, function(items) {
 
     const catSpan = document.createElement('span')
     catSpan.textContent = items.catData[i];
+    catSpan.setAttribute('id', `cat${i}-span`)
+
 
     catContainer.appendChild(catLabel)
     catLabel.appendChild(catInput)
@@ -63,9 +66,9 @@ chrome.storage.local.get({ catData:[] }, function(items) {
 });
 
 
-chrome.storage.local.get({ words:[] }, function(items) {
+chrome.storage.local.get({ wordInfo:[] }, function(items) {
     //
-    console.log(items.words);
-    document.getElementById('main-word').textContent = items.words;
+    console.log(items.wordInfo);
+    //document.getElementById('main-word').textContent = items.words;
 
 });
