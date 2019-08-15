@@ -56,9 +56,11 @@ chrome.storage.local.get({ catData:[] }, function(items) {
 
         const navForm = document.createElement('form')
         navForm.setAttribute('id', `cat-form${i}`)
+        navForm.setAttribute('class', 'cat-form')        
 
         const navBtn = document.createElement('button')
         navBtn.setAttribute('type', 'submit')
+        navBtn.setAttribute('id', `submit${i}`)
         navBtn.textContent = items.catData[i];
 
         navContainer.appendChild(navDiv)
@@ -69,12 +71,53 @@ chrome.storage.local.get({ catData:[] }, function(items) {
 
 });
 
+function listWords() {
+    // Build main-area with words
+        // Main <ul> 
+        const wordUl = document.getElementById('words-ul')
+        // <li>
+        const wordLi = document.createElement('li')
+        wordLi.setAttribute('class', 'flexbox')
+        // First <p> word
+        const wordPara1 = document.createElement('p')
+        wordPara1.setAttribute('class', 'main-word')
+        wordPara1.setAttribute('id', `main-word-${i}`)
+        wordPara1.textContent = items.wordInfo[i].word
+
+        // <div> for tag's <span>
+        const tagDiv = document.createElement('div')
+        tagDiv.setAttribute('class', 'tagDiv')
+        tagDiv.setAttribute('id', `tagDiv${i}`)
+
+        wordUl.appendChild(wordLi)
+        wordLi.appendChild(wordPara1)
+        wordLi.appendChild(tagDiv)
+        
+        // Tag's <span>
+        for (let j = 0; j < items.wordInfo[i].tag.length; j++ ) {
+
+            const divTag = document.getElementById(`tagDiv${i}`)
+            const tagSpan = document.createElement('span')
+            tagSpan.textContent = items.wordInfo[i].tag[j]
+            tagSpan.setAttribute('class', 'main-tag');
+            divTag.appendChild(tagSpan)
+
+        }
+        // Second <p> meaning
+        const wordPara2 = document.createElement('p')
+        wordPara2.textContent = items.wordInfo[i].meanings
+        wordPara2.setAttribute('class', 'main-meaning')
+
+        wordLi.appendChild(wordPara2)
+
+}
+
+// Word list (default)
 chrome.storage.local.get({ wordInfo:[] }, function(items) {
 
-    //console.log(items.wordInfo);
+    console.log(items.wordInfo)
 
-    let i;
-    for( i = 0; i < items.wordInfo.length; i++ ) {
+    for( let i = 0; i < items.wordInfo.length; i++ ) {
 
         // Build main-area with words
         // Main <ul> 
@@ -102,7 +145,7 @@ chrome.storage.local.get({ wordInfo:[] }, function(items) {
 
             const divTag = document.getElementById(`tagDiv${i}`)
             const tagSpan = document.createElement('span')
-            tagSpan.textContent = items.wordInfo[i].tag[j];
+            tagSpan.textContent = items.wordInfo[i].tag[j]
             tagSpan.setAttribute('class', 'main-tag');
             divTag.appendChild(tagSpan)
 
@@ -113,6 +156,41 @@ chrome.storage.local.get({ wordInfo:[] }, function(items) {
         wordPara2.setAttribute('class', 'main-meaning')
 
         wordLi.appendChild(wordPara2)
+
+    }
+
+});
+
+chrome.storage.local.get({ catData:[] }, function(items) {
+    
+    for( let i = 0; i < items.catData.length; i++ ) {
+
+        // Word list sorted by Category
+        document.getElementById(`cat-form${i}`).onsubmit = function(){
+
+            chrome.storage.local.get({ wordInfo:[] }, function(items) {
+
+                // This code doesn't work. it might be because of .onsubmit. might need to be something else...
+
+                const all = items.wordInfo
+                const expected = {};
+                all.map(function (i,j) {
+                  var cat=i["category"];
+                  if(typeof expected[cat]=="undefined") expected[cat]=[];
+                  expected[cat].push(i);
+                });
+
+                const wordUl = document.getElementById('words-ul')
+
+                const wordPara1 = document.createElement('p')
+                wordPara1.textContent = expected
+
+                wordUl.appendChild(wordPara1)
+
+            });
+
+        };
+
     }
 
 });

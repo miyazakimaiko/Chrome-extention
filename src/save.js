@@ -1,6 +1,8 @@
+
+
 // Create tags
 document.getElementById('add-tags').onsubmit = function(){
-    
+
     chrome.storage.local.get({ tagData:[] }, function(items) {
 
         let newTag = document.getElementById('tag-input').value;
@@ -83,3 +85,4 @@ document.getElementById('add-word-form').onsubmit = function(){
     });
 
 }
+
