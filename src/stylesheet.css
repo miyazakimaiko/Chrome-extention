@@ -201,9 +201,9 @@ main {
 
 .main-tag {
     padding: 2.5px 5px;
-    margin: 7.5px 0 0;
+    margin: 7.5px 2px 0;
     height: 15px;
-    display: -webkit-inline-box;
+    line-height: 33px;
     background-color: #AFAFAF;
     color: #FFF;
     border-radius: 5px;
@@ -213,7 +213,8 @@ main {
 .main-meaning {
     padding: 2.5px 5px;
     margin: 2.5px 7px;
-    font-size: .8rem;
+    font-size: .82rem;
+    line-height: 1.1rem;
 }
 
 .content-container {
