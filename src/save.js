@@ -36,7 +36,7 @@ document.getElementById('add-word-form').onsubmit = function(){
     
     chrome.storage.local.get({ wordInfo:[] }, function(items) {
 
-        let newWord = { word:'', tag:[], category:'', meanings:'' };
+        let newWord = { word:'', tag:[], category:'', meanings:'' }; // need to add ID -----------------------------------------------
 
         // Push word
         let vocab = document.getElementById('vocabulary').value;
@@ -78,7 +78,7 @@ document.getElementById('add-word-form').onsubmit = function(){
 
         }
 
-        items.wordInfo.push(newWord); 
+        items.wordInfo.unshift(newWord); 
 
         chrome.storage.local.set(items);
 

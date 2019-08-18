@@ -7,6 +7,7 @@
 
         <link rel="stylesheet" href="stylesheet.css">
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         
     </head>
     <body>
@@ -16,8 +17,8 @@
         <header>
             
             <div id="add-word-drawer">
-                <input id="add-word-input" type="checkbox" class="add-word-unshown">
-                <label id="add-word-open" for="add-word-input"><span class="add-word-btn">Add a new word</span></label>
+                <input id="add-word-input" class="add-word-input" type="checkbox" class="add-word-unshown">
+                <label id="add-word-open" class="add-word-open" for="add-word-input"><span class="add-word-btn">Add a new word</span></label>
                 <label id="add-word-close" class="nadd-word-unshown" for="add-word-input"></label>
                 <div id="add-word-content">
                     <div class="content-container">
@@ -53,7 +54,7 @@
             </form>
 
             <div id="nav-drawer">
-                <input id="nav-input" type="checkbox" class="nav-unshown">
+                <input id="nav-input" class="nav-input" type="checkbox" class="nav-unshown">
                 <label id="nav-open" for="nav-input"><span></span></label>
                 <label id="nav-close" class="nav-unshown" for="nav-input"></label>
                 <div id="nav-content">
@@ -62,6 +63,11 @@
                         <!-- nav-drawer contents-->
                         <div id="nav-cat-container">
                             <big>Category</big>
+                            <div>
+                                <form class="cat-form">
+                                    <button type="submit" id="submit-1" class="category-btn">All</button>
+                                </form>
+                            </div>
                         </div>
 
                         <form class="add-container" id="add-tags">

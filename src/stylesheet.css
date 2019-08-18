@@ -89,7 +89,7 @@ header {
     height: 100%;
     background: black;
     opacity: 0;
-    transition: .3s ease-in-out;
+    transition: .1s ease;
 }
 
 #nav-close {
@@ -102,7 +102,7 @@ header {
     height: 100%;
     background: black;
     opacity: 0;
-    transition: .3s ease-in-out;
+    transition: .1s ease;
 }
 
 #add-word-content {
@@ -115,7 +115,7 @@ header {
     max-height: 600px;
     height: 90%;
     background-color: #FBFCF0;
-    transition: .3s ease-in-out;
+    transition: .1s ease;
     -webkit-transform: translateY(-105%);
     transform: translateY(-105%);
 }
@@ -130,25 +130,30 @@ header {
     max-width: 330px;
     height: 100%;
     background-color: #FBFCF0;
-    transition: .3s ease-in-out;
+    transition: .1s ease;
     -webkit-transform: translateX(105%);
     transform: translateX(105%);
 }
 
-#nav-input:checked ~ #nav-close,
-#add-word-input:checked ~ #add-word-close {
+#nav-input,
+#add-word-input {
+    display: none;
+}
+
+.nav-input:checked ~ #nav-close,
+.add-word-input:checked ~ #add-word-close {
     display: block;
     opacity: .2;
 }
 
-#add-word-input:checked ~ #add-word-content {
+.add-word-input:checked ~ #add-word-content {
     -webkit-transform: translateY(0%);
     transform: translateY(0%);
     box-shadow: 6px 0 25px rgba(0,0,0,.15);
     background-color: #FBFCF0;
 }
 
-#nav-input:checked ~ #nav-content {
+.nav-input:checked ~ #nav-content {
     -webkit-transform: translateX(0%);
     transform: translateX(0%);
     box-shadow: 6px 0 25px rgba(0,0,0,.15);
@@ -190,6 +195,7 @@ main {
     display: flex;
     padding: 10px 0;
     border-bottom: 1px dashed #8E8E8E;
+    position: relative;
 }
 
 .main-word {
@@ -215,6 +221,17 @@ main {
     margin: 2.5px 7px;
     font-size: .82rem;
     line-height: 1.1rem;
+}
+
+.edit-submit-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 5px;
+    background: content-box;
+    border: none;
+    cursor: pointer;
+    color: #8E8E8E;
+    font-size: .8rem;
 }
 
 .content-container {
@@ -316,6 +333,12 @@ main {
 # side nav bar
 # 
 */
+
+.category-btn {
+    border: none;
+    background: content-box;
+    cursor: pointer;
+}
 
 .add-container {
     display: flex;
