@@ -46,13 +46,11 @@ document.getElementById('add-word-form').onsubmit = function(){
             chrome.storage.local.set(items);
         }
 
-        // Create wordInfo array
+        // init array
         if(!items.wordInfo){
             items.wordInfo = [];
         }
-
-
-        const newWord = { id:'', word:'', tag:[], category:'', meanings:'' }; // need to add ID -----------------------------------------------
+        const newWord = { id:'', word:'', tag:[], category:'', meanings:'' };
 
         // Add ID
         const cId = items.countId;
