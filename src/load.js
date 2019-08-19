@@ -83,27 +83,29 @@ chrome.storage.local.get({ catData:[] }, function(items) {
 
 });
 
+chrome.storage.local.get(null, function(items) {
+    console.log(items.countId)
+    console.log(items.wordInfo)
+
+});
+
 // Display all words (default)
 chrome.storage.local.get({ wordInfo:[] }, function(items) {
 
     console.log(items.wordInfo)
 
     for( let i = 0; i < items.wordInfo.length; i++ ) {
-
         // Build main-area with words
         // Main <ul> 
         const wordUl = document.getElementById('words-ul')
-
         // <li>
         const wordLi = document.createElement('li')
         wordLi.setAttribute('class', 'flexbox')
-
         // First <p> word
         const wordPara1 = document.createElement('p')
         wordPara1.setAttribute('class', 'main-word')
         wordPara1.setAttribute('id', `main-word-${i}`)
         wordPara1.textContent = items.wordInfo[i].word
-
         // <div> for tag's <span>
         const tagDiv = document.createElement('div')
         tagDiv.setAttribute('class', 'tagDiv')
@@ -299,7 +301,6 @@ chrome.storage.local.get({ catData:[] }, function(items) {
                     wordPara1.setAttribute('class', 'main-word')
                     wordPara1.setAttribute('id', `main-word-${i}`)
                     wordPara1.textContent = result[i].word
-            
                     // <div> for tag's <span>
                     const tagDiv = document.createElement('div')
                     tagDiv.setAttribute('class', 'tagDiv')
@@ -313,7 +314,6 @@ chrome.storage.local.get({ catData:[] }, function(items) {
                     for (let j = 0; j < result[i].tag.length; j++ ) {
             
                         const divTag = document.getElementById(`tagDiv${i}`)
-
                         const tagSpan = document.createElement('span')
                         tagSpan.textContent = result[i].tag[j]
                         tagSpan.setAttribute('class', 'main-tag');

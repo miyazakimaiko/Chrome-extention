@@ -33,10 +33,30 @@ document.getElementById('add-category').onsubmit = function(){
 
 // Add words
 document.getElementById('add-word-form').onsubmit = function(){
-    
-    chrome.storage.local.get({ wordInfo:[] }, function(items) {
 
-        let newWord = { word:'', tag:[], category:'', meanings:'' }; // need to add ID -----------------------------------------------
+    chrome.storage.local.get(null, function(items) {
+
+        // Create ID"
+        if (items.countId === undefined || items.countId === 0) {
+            let id = 1
+            items.countId = id;
+            chrome.storage.local.set(items);
+        } else {
+            items.countId++
+            chrome.storage.local.set(items);
+        }
+
+        // Create wordInfo array
+        if(!items.wordInfo){
+            items.wordInfo = [];
+        }
+
+
+        const newWord = { id:'', word:'', tag:[], category:'', meanings:'' }; // need to add ID -----------------------------------------------
+
+        // Add ID
+        const cId = items.countId;
+        newWord.id = cId;
 
         // Push word
         let vocab = document.getElementById('vocabulary').value;
@@ -78,7 +98,11 @@ document.getElementById('add-word-form').onsubmit = function(){
 
         }
 
-        items.wordInfo.unshift(newWord); 
+        if(items.wordInfo === undefined ) {
+            items.wordInfo[0] = newWord;
+        } else {
+            items.wordInfo.unshift(newWord); 
+        }
 
         chrome.storage.local.set(items);
 
