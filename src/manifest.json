@@ -1,21 +1,18 @@
 {
   "name": "Vocabulary Notebook",
-  "description": "Simple memo specialized in vocabulary. You can create your own vocabulary list.",
+  "description": "Simple memo specialized in vocabulary. Create your own vocabulary list.",
   "author": "Maiko Miyazaki",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "manifest_version": 2,
   "browser_action":{
-    "default_title": "Your Own Dictionary",
-      "default_popup": "popup.html"
+    "default_title": "Vocabulary Notebook",
+    "default_popup": "popup.html"
   },
   "icons": {
-    "16": "favicon.ico"
-},
-  "content_scripts": [{
-    "matches": [ "http://*/*", "https://*/*" ],
-    "js": [ "load.js", "save.js" ]
-  }],
+    "16": "favicon.png"
+  },
   "permissions": [
+    "activeTab",
     "storage"
   ]
 }
