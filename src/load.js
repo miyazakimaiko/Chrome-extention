@@ -262,7 +262,7 @@ function displayWords(root, location, storage) {
 
                 }
 
-                for (let n = 0; location.length; n++ ) {
+                for (let n = 0; n < location.length; n++ ) {
                     if ( location[n].id == editedWord.id ) {
                         location[n] = editedWord
                         chrome.storage.local.set(root)
