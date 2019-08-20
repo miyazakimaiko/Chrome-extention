@@ -15,78 +15,81 @@
         <!--=================================
         HEADER -->
         <header>
-            
-            <div id="add-word-drawer">
-                <input id="add-word-input" class="add-word-input" type="checkbox" class="add-word-unshown">
-                <label id="add-word-open" class="add-word-open" for="add-word-input"><span class="add-word-btn">Add a new word</span></label>
-                <label id="add-word-close" class="nadd-word-unshown" for="add-word-input"></label>
-                <div id="add-word-content">
-                    <div class="content-container">
+            <div class="header-container">
 
-                        <!-- content of add-word-drawer -->
-                        <form class="add-word-form" id="add-word-form">
+                <div id="add-word-drawer">
+                    <input id="add-word-input" class="add-word-input" type="checkbox" class="add-word-unshown">
+                    <label id="add-word-open" class="add-word-open" for="add-word-input"><span class="add-word-btn">Add a new word</span></label>
+                    <div id="add-word-content">
+                        <div class="content-container">
 
-                            <label for="vocabulary" class="content-titles">Vocabulary</label>
-                            <input id="vocabulary" class="word-input" type="text">
-                            
-                            <p class="content-titles">Tags</p>
-                            <div class="tag-container" id="tag-container"></div>
+                            <!-- content of add-word-drawer -->
+                            <form class="add-word-form" id="add-word-form">
 
-                            <div class="meaning-container">
-                                <p class="content-titles">Meaning</p>
-                                <textarea name="meaning" id="meaning-textarea" cols="30" rows="5"></textarea>
-                            </div>
+                                <label for="vocabulary" class="content-titles">Vocabulary</label>
+                                <input id="vocabulary" class="word-input" type="text">
+                                
+                                <p class="content-titles">Tags</p>
+                                <div class="tag-container" id="tag-container"></div>
 
-                            <p class="content-titles">Category</p>
-                            <div class="category-container" id="category-container"></div>
+                                <div class="meaning-container">
+                                    <p class="content-titles">Meaning</p>
+                                    <textarea name="meaning" id="meaning-textarea" cols="30" rows="5"></textarea>
+                                </div>
 
-                            <input type="hidden" id="id-sender">
+                                <p class="content-titles">Category</p>
+                                <div class="category-container" id="category-container"></div>
 
-                            <button id="cancel-btn">Cancel</button>
-                            <button class="add-word-btn add-word-submit" type="submit">Submit</button>
+                                <input type="hidden" id="id-sender">
 
-                        </form>
+                                <button class="add-word-btn add-word-submit" type="submit">Submit</button>
 
+                            </form>
+                            <form id="cancel-form">
+                                <button id="cancel-btn" type="submit">Cancel</button>
+                            </form>
+
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <form action="">
-                <input class="search-input" type="text" placeholder="Search">
-                <submit class="search-submit" type="submit"></submit>
-            </form>
+                <div id="nav-drawer">
+                    <input id="nav-input" class="nav-input" type="checkbox" class="nav-unshown">
+                    <label id="nav-open" for="nav-input"><span></span></label>
+                    <label id="nav-close" class="nav-unshown" for="nav-input"></label>
+                    <div id="nav-content">
+                        <div class="content-container">
 
-            <div id="nav-drawer">
-                <input id="nav-input" class="nav-input" type="checkbox" class="nav-unshown">
-                <label id="nav-open" for="nav-input"><span></span></label>
-                <label id="nav-close" class="nav-unshown" for="nav-input"></label>
-                <div id="nav-content">
-                    <div class="content-container">
-
-                        <!-- nav-drawer contents-->
-                        <div id="nav-cat-container">
-                            <big>Category</big>
-                            <div>
-                                <form class="cat-form">
-                                    <button type="submit" id="submit-1" class="category-btn">All</button>
-                                </form>
+                            <!-- nav-drawer contents-->
+                            <div id="nav-cat-container">
+                                <big>Category</big>
+                                <div>
+                                    <form class="cat-form">
+                                        <button type="submit" id="submit-1" class="category-btn">All</button>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
 
-                        <form class="add-container" id="add-tags">
-                            <big>Add Tag</big>
-                            <input class="tag-input" id="tag-input" type="text">
-                            <button type="submit">Submit</button>
-                        </form>
+                            <form class="add-container" id="add-tags">
+                                <big>Add Tag</big>
+                                <div>
+                                    <input class="tag-input" id="tag-input" type="text">
+                                    <button type="submit">Submit</button>
+                                </div>
+                            </form>
 
-                        <form class="add-container" id="add-category">
-                            <big>Add Category</big>
-                            <input class="category-input" id="category-input" type="text">
-                            <button type="submit">Submit</button>
-                        </form>
+                            <form class="add-container" id="add-category">
+                                <big>Add Category</big>
+                                <div>
+                                    <input class="category-input" id="category-input" type="text">
+                                    <button type="submit">Submit</button>
+                                </div>
+                            </form>
 
-                    </div><!-- content-container -->
+                        </div><!-- content-container -->
+                    </div>
                 </div>
+
             </div>
 
         </header>

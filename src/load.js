@@ -1,3 +1,5 @@
+
+
 // Tag data
 
 chrome.storage.local.get({ tagData:[] }, function(items) {
@@ -96,10 +98,16 @@ function displayWords(root, location, storage) {
         // Build main-area with words
         // Main <ul> 
         const wordUl = document.getElementById('words-ul')
+        // Message if there's no data
+        const message = document.createElement('p')
+        message.textContent = ('Please add tags from side bar.')
+        
+        if ( storage === undefined ) {
+            wordUl.appendChild(message)   
+        }
         // <li>
         const wordLi = document.createElement('li')
         wordLi.setAttribute('class', 'flexbox')
-        wordLi.setAttribute('id', storage[i].id)
 
         // First <p> word
         const wordPara1 = document.createElement('p')
@@ -159,7 +167,7 @@ function displayWords(root, location, storage) {
             
             const input = document.getElementById('add-word-input')
             input.checked = true;
-            
+            // Change ID so the form can send different way
             const editWordForm = document.getElementById('add-word-form')
             editWordForm.id = 'edit-word-form'
             // Display data related to the button that is submitted
@@ -205,6 +213,19 @@ function displayWords(root, location, storage) {
                 }
             });
 
+            document.getElementById('cancel-form').onsubmit = () => {
+
+                if ( document.getElementById('edit-word-form') ) {
+                    document.getElementById('edit-word-form').id = 'add-word-form'
+                    // Close the pull down window
+                    input.checked = false;
+                } else {
+                    input.checked = false;
+                }
+
+            }
+
+            // Set data into storage.local
             document.getElementById('edit-word-form').onsubmit = () => {
 
                 let editedWord = { id:'', word:'', tag:[], category:'', meanings:'' };
@@ -212,6 +233,7 @@ function displayWords(root, location, storage) {
                 editedWord.id = document.getElementById('id-sender').value
                 editedWord.word = document.getElementById('vocabulary').value
                 editedWord.meanings = document.getElementById('meaning-textarea').value
+
                 // Push tag
                 const tagEl = document.getElementById('tag-container');
                 const tags = tagEl.getElementsByTagName('input');
@@ -225,11 +247,10 @@ function displayWords(root, location, storage) {
                     }
         
                 }
+
                 // Push category
                 const catEl = document.getElementById('category-container');
-
                 const cat = catEl.getElementsByTagName('input');
-
                 for (let m=0, len=cat.length; m<len; m++ ) {
                     
                     if (cat[m].checked) {
@@ -257,6 +278,7 @@ function displayWords(root, location, storage) {
   
         };
 
+
     }
 
 }
@@ -264,8 +286,6 @@ function displayWords(root, location, storage) {
 
 // Display all words (default)
 chrome.storage.local.get({ wordInfo:[] }, function(items) {
-
-    console.log(items.wordInfo)
 
     displayWords(items, items.wordInfo, items.wordInfo);
 

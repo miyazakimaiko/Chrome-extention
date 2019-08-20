@@ -1,15 +1,20 @@
-
-
 // Create tags
 document.getElementById('add-tags').onsubmit = function(){
 
+    let newTag = document.getElementById('tag-input').value;
+
     chrome.storage.local.get({ tagData:[] }, function(items) {
 
-        let newTag = document.getElementById('tag-input').value;
-
-        items.tagData.push(newTag);
-
-        chrome.storage.local.set(items);
+        if ( newTag == '' ) {
+            alert('Please fill the form.')
+            return false
+        }
+        if (items.tagData.indexOf(newTag) == -1 ) {
+            items.tagData.push(newTag);
+            chrome.storage.local.set(items);
+        } else {
+            alert('This tag already exist.')
+        }
 
     });
 
@@ -21,10 +26,17 @@ document.getElementById('add-category').onsubmit = function(){
     chrome.storage.local.get({ catData:[] }, function(items) {
 
         let newCat = document.getElementById('category-input').value;
-
-        items.catData.push(newCat);
-
-        chrome.storage.local.set(items);
+        
+        if ( newCat == '' ) {
+            alert('Please fill the form.')
+            return false
+        }
+        if (items.catData.indexOf(newCat) == -1 ) {
+            items.catData.push(newCat);
+            chrome.storage.local.set(items);
+        } else {
+            alert('This category already exist.')
+        }
 
     });
 

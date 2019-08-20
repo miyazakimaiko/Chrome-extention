@@ -15,6 +15,7 @@ body {
     max-width: 100%;
     height: 100%;
     overflow: hidden;
+    background-color: #FBFCF0;
 }
 
 button, input, textarea {
@@ -22,14 +23,23 @@ button, input, textarea {
 }
 
 header {
-    padding: 10px;
-    background-color: #79DBA6;
-    display: flex;
-    justify-content: space-between;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
+    height: 30px
+}
+
+.header-container {
+    padding: 10px;
+    height: 30px;
+    background-color: #79DBA6;
+    display: flex;
+    justify-content: space-between;
+    position: static;
+    top: 0;
+    right: 0;
+    left: 0;
     z-index: 999;
 }
 
@@ -42,8 +52,7 @@ header {
     line-height: 30px;
 }
 
-.nav-unshown,
-.add-word-unshown {
+.nav-unshown{
     display: none;
 }
 
@@ -79,18 +88,6 @@ header {
     bottom: -16px;
 }
 
-#add-word-close {
-    display: none;
-    position: fixed;
-    z-index: 99;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    background: black;
-    opacity: 0;
-    transition: .1s ease;
-}
 
 #nav-close {
     display: none;
@@ -110,10 +107,9 @@ header {
     position: fixed;
     top: 0;
     right: 0;
-    z-index: 9999;
+    z-index: -1;
     width: 100%;
-    max-height: 600px;
-    height: 90%;
+    height: 100%;
     background-color: #FBFCF0;
     transition: .1s ease;
     -webkit-transform: translateY(-105%);
@@ -181,10 +177,11 @@ header {
 }
 
 main {
+    position: absolute;
+    z-index: -1;
     padding-top: 50px;
-    height: 160vh;
+    min-height: 92vh;
     width: 100%;
-    background-color: #FBFCF0;
 }
 
 .words-ul {
@@ -201,7 +198,7 @@ main {
 .main-word {
     padding: 2.5px 5px;
     margin: 2.5px;
-    font-size: 1.2rem;
+    font-size: 1rem;
     white-space: nowrap;
 }
 
@@ -251,10 +248,11 @@ main {
 
 .add-word-form {
     position: relative;
+    padding-top: 50px;
 }
 
 .word-input {
-    padding: 10px 20px;
+    padding: 5px 20px;
     width: 100%;
     font-size: 1.2rem;
     border: dashed #707070;
@@ -284,7 +282,7 @@ main {
 }
 
 .tag-container div label {
-    margin-right: 20px;
+    margin-right: 10px;
     margin-bottom: 10px; 
     padding: 3px 10px;
     background: white;
@@ -313,12 +311,32 @@ main {
     font-size: .8rem;
 }
 
+#cancel-form {
+    display: flex;
+    float: right;
+    margin-right: 15px;
+}
+
+#cancel-btn {
+    background-color: #f0f0f0;
+    border: lightgray;
+    border-radius: 5px;
+    padding: 7px 10px;
+    text-decoration: none;
+    font-size: 1rem;
+    color: grey;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
 .add-word-submit {
     float: right;
     cursor: pointer;
+    margin-top: 20px;
 }
 
 .category-container {
+    margin-top: 10px;
     display: flex;
     flex-wrap: wrap;
 }
@@ -359,9 +377,13 @@ main {
     outline: none;
 }
 
+.add-container div {
+    display: flex;
+}
+
 .add-container button {
     width: fit-content;
-    margin: 10px 0 0 auto;
+    margin: 10px 0 0 10px;
     padding: 5px 10px;
     background: lightsalmon;
     color: white;
