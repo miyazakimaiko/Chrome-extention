@@ -1,7 +1,4 @@
-
-
 // Tag data
-
 chrome.storage.local.get({ tagData:[] }, function(items) {
 
     let i;
