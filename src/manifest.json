@@ -2,7 +2,7 @@
   "name": "Vocabulary Notebook",
   "description": "Simple memo specialized in vocabulary. Create your own vocabulary list.",
   "author": "Maiko Miyazaki",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "manifest_version": 2,
   "browser_action":{
     "default_title": "Vocabulary Notebook",
