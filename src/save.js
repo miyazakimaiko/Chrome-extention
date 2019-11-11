@@ -5,17 +5,17 @@ if ( document.getElementById('add-tags') ) {
 
         let newTag = document.getElementById('tag-input').value;
 
-        chrome.storage.local.get({ tagData:[] }, function(items) {
+        chrome.storage.local.get({ tagData:[] }, (items) => {
 
             if ( newTag == '' ) {
-                alert('Please fill the form.')
-                return false
+                alert('Please fill the form.');
+                return false;
             }
             if (items.tagData.indexOf(newTag) == -1 ) {
                 items.tagData.push(newTag);
                 chrome.storage.local.set(items);
             } else {
-                alert('This tag already exist.')
+                alert('This tag already exists.');
             }
 
         });
@@ -29,7 +29,7 @@ if ( document.getElementById('add-category') ) {
 
     document.getElementById('add-category').onsubmit = () => {
         
-        chrome.storage.local.get({ catData:[] }, function(items) {
+        chrome.storage.local.get({ catData:[] }, (items) => {
 
             let newCat = document.getElementById('category-input').value;
             
@@ -55,7 +55,7 @@ if ( document.getElementById('add-word-form') ) {
 
     document.getElementById('add-word-form').onsubmit = () => {
 
-        chrome.storage.local.get(null, function(items) {
+        chrome.storage.local.get(null, (items) => {
 
             // Create ID"
             if (items.countId === undefined || items.countId === 0) {
@@ -71,7 +71,7 @@ if ( document.getElementById('add-word-form') ) {
             if(!items.wordInfo){
                 items.wordInfo = [];
             }
-            const newWord = { id:'', word:'', tag:[], category:'', meanings:'' };
+            const newWord = { id:0, word:"", tag:[], category:"", meanings:"" };
 
             // Add ID
             const cId = items.countId;
@@ -90,13 +90,11 @@ if ( document.getElementById('add-word-form') ) {
 
             let tags = tagEl.getElementsByTagName('input');
 
-            for (let i=0, len=tags.length; i<len; i++ ) {
+            for (let i = 0; i < tags.length; i++ ) {
                 
                 if (tags[i].checked) {
-
                     let checkedLabel = document.getElementById(`tag${i}-label`).textContent;
-                    newWord.tag.push(checkedLabel);
-
+                    newWord.tag.push(checkedLabel)
                 }
 
             }
@@ -106,15 +104,11 @@ if ( document.getElementById('add-word-form') ) {
 
             let cat = catEl.getElementsByTagName('input');
 
-            for (let i=0, len=cat.length; i<len; i++ ) {
-                
+            for (let i = 0; i < cat.length; i++ ) {
                 if (cat[i].checked) {
-
                     let checkedSpan = document.getElementById(`cat${i}-span`).textContent;
                     newWord.category = checkedSpan;
-
                 }
-
             }
 
             if(items.wordInfo === undefined ) {
