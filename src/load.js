@@ -101,9 +101,9 @@ const displayWords = (root, location, storage) => {
         const wordUl = document.getElementById('words-ul')
         // Message if there's no data
         const message = document.createElement('p')
-              message.textContent = ('Please add tags from side bar.')
+              message.textContent = ('You can add tags from side bar!')
         
-        if ( storage === undefined || storage === null ) {
+        if ( storage.length === 0 ) {
             wordUl.appendChild(message)   
         }
         // <li>
@@ -129,7 +129,7 @@ const displayWords = (root, location, storage) => {
             const divTag = document.getElementById(`tagDiv${i}`)
             const tagSpan = document.createElement('span')
                   tagSpan.textContent = storage[i].tag[j]
-                  tagSpan.setAttribute('class', 'main-tag')
+                  tagSpan.setAttribute('class', 'badge badge-pill badge-success')
                   divTag.appendChild(tagSpan)
         }
         // Second <p> meaning
@@ -141,6 +141,7 @@ const displayWords = (root, location, storage) => {
 
         // Edit button
         const editForm = document.createElement('form')
+              editForm.setAttribute('class', 'edit-submit-form')
               editForm.setAttribute('id',`edit-submit-form${i}`)
         
         const editSubmit = document.createElement('button')
@@ -153,11 +154,11 @@ const displayWords = (root, location, storage) => {
         editForm.appendChild(editSubmit)
         editSubmit.appendChild(fontAwesome)
 
-        wordLi.addEventListener('mouseenter', () => {
+        wordLi.addEventListener("mouseenter", () => {
             fontAwesome.setAttribute('class', 'fas fa-edit')
         }, false);
 
-        wordLi.addEventListener('mouseleave', () => {
+        wordLi.addEventListener("mouseleave", () => {
             fontAwesome.removeAttribute('class')
         }, false);
 
@@ -197,7 +198,6 @@ const displayWords = (root, location, storage) => {
             chrome.storage.local.get({ catData:[] }, (items) => {
 
                 for (let k = 0; k < items.catData.length; k++ ) {
-
                     const a = items.catData[k]
                     const b = storage[i].category
                     if ( a === b ) {

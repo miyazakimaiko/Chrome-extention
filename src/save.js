@@ -7,11 +7,11 @@ if ( document.getElementById('add-tags') ) {
 
         chrome.storage.local.get({ tagData:[] }, (items) => {
 
-            if ( newTag == '' ) {
+            if ( newTag === '' ) {
                 alert('Please fill the form.');
                 return false;
             }
-            if (items.tagData.indexOf(newTag) == -1 ) {
+            if (items.tagData.indexOf(newTag) === -1 ) {
                 items.tagData.push(newTag);
                 chrome.storage.local.set(items);
             } else {
@@ -33,11 +33,11 @@ if ( document.getElementById('add-category') ) {
 
             let newCat = document.getElementById('category-input').value;
             
-            if ( newCat == '' ) {
+            if ( newCat === '' ) {
                 alert('Please fill the form.')
                 return false
             }
-            if (items.catData.indexOf(newCat) == -1 ) {
+            if (items.catData.indexOf(newCat) === -1 ) {
                 items.catData.push(newCat);
                 chrome.storage.local.set(items);
             } else {

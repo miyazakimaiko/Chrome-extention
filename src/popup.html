@@ -5,7 +5,8 @@
 
         <link href="stylesheet.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
-        <link href="fontawesome/all.css" rel="stylesheet">
+        <link href="fontawesome/css/all.css" rel="stylesheet">
+        <link href="bootstrap.css" rel="stylesheet">
         
     </head>
     <body>
@@ -17,7 +18,9 @@
 
                 <div id="add-word-drawer">
                     <input id="add-word-input" class="add-word-input" type="checkbox" class="add-word-unshown">
-                    <label id="add-word-open" class="add-word-open" for="add-word-input"><span class="add-word-btn">Add a new word</span></label>
+                    <label id="add-word-open" class="add-word-open" for="add-word-input">
+                        <span class="add-word-btn btn btn-outline-success">Add a new word</span>
+                    </label>
                     <div id="add-word-content">
                         <div class="content-container">
 
@@ -25,26 +28,26 @@
                             <form class="add-word-form" id="add-word-form">
 
                                 <label for="vocabulary" class="content-titles">Vocabulary</label>
-                                <input id="vocabulary" class="word-input" type="text">
+                                <input id="vocabulary" class="word-input form-control" type="text">
                                 
                                 <p class="content-titles">Tags</p>
-                                <div class="tag-container" id="tag-container"></div>
+                                <div class="tag-container tag-form-control" id="tag-container"></div>
 
                                 <div class="meaning-container">
                                     <p class="content-titles">Meaning</p>
-                                    <textarea name="meaning" id="meaning-textarea" cols="30" rows="5"></textarea>
+                                    <textarea name="meaning" id="meaning-textarea" class="form-control" rows="3"></textarea>
                                 </div>
 
                                 <p class="content-titles">Category</p>
-                                <div class="category-container" id="category-container"></div>
+                                <div class="category-container tag-form-control" id="category-container"></div>
 
                                 <input type="hidden" id="id-sender">
 
-                                <button class="add-word-btn add-word-submit" type="submit">Submit</button>
+                                <button class="add-word-btn add-word-submit btn btn-info" type="submit">Submit</button>
 
                             </form>
                             <form id="cancel-form">
-                                <button id="cancel-btn" type="submit">Cancel</button>
+                                <button id="cancel-btn" class="btn btn-secondary" type="submit">Cancel</button>
                             </form>
 
                         </div>
@@ -72,7 +75,7 @@
                                 <big>Add Tag</big>
                                 <div>
                                     <input class="tag-input" id="tag-input" type="text">
-                                    <button type="submit">Submit</button>
+                                    <button type="submit" class="btn btn-outline-info">Submit</button>
                                 </div>
                             </form>
 
@@ -80,7 +83,7 @@
                                 <big>Add Category</big>
                                 <div>
                                     <input class="category-input" id="category-input" type="text">
-                                    <button type="submit">Submit</button>
+                                    <button type="submit" class="btn btn-outline-info">Submit</button>
                                 </div>
                             </form>
 
@@ -95,7 +98,8 @@
         <!--=================================
         MAIN SECTION-->
         <main>
-            <ul class="words-ul" id="words-ul"></ul>
+            <ul class="words-ul" id="words-ul">
+            </ul>
         </main>
     <script src="save.js"></script>
     <script src="load.js"></script>

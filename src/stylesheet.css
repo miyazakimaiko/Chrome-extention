@@ -13,7 +13,8 @@ body {
     margin: 0;
     width: 450px;
     max-width: 100%;
-    height: 100%;
+    min-height: 100%;
+    height: 101vh;
     overflow: hidden;
     background-color: #FBFCF0;
 }
@@ -27,13 +28,12 @@ header {
     top: 0;
     left: 0;
     right: 0;
-    height: 30px
+    z-index: 1;
 }
 
 .header-container {
     padding: 10px;
-    height: 30px;
-    background-color: #79DBA6;
+    background: #fff;
     display: flex;
     justify-content: space-between;
     position: static;
@@ -74,7 +74,7 @@ header {
     height: 3px;
     width: 25px;
     border-radius: 3px;
-    background: #fff;
+    background: #4BBF73;
     display: block;
     content: '';
     cursor: pointer;
@@ -110,7 +110,7 @@ header {
     z-index: -1;
     width: 100%;
     height: 100%;
-    background-color: #FBFCF0;
+    background-color: #FFF;
     transition: .1s ease;
     -webkit-transform: translateY(-105%);
     transform: translateY(-105%);
@@ -125,7 +125,7 @@ header {
     width: 90%;
     max-width: 330px;
     height: 100%;
-    background-color: #FBFCF0;
+    background-color: #FFF;
     transition: .1s ease;
     -webkit-transform: translateX(105%);
     transform: translateX(105%);
@@ -146,7 +146,7 @@ header {
     -webkit-transform: translateY(0%);
     transform: translateY(0%);
     box-shadow: 6px 0 25px rgba(0,0,0,.15);
-    background-color: #FBFCF0;
+    background-color: #FFF;
 }
 
 .nav-input:checked ~ #nav-content {
@@ -177,39 +177,38 @@ header {
 }
 
 main {
-    position: absolute;
     z-index: -1;
-    padding-top: 50px;
-    min-height: 92vh;
+    padding-top: 60px;
+    min-height: 100%;
+    height: 100vh;
     width: 100%;
 }
 
 .words-ul {
     padding: 0 15px;
+    list-style: none;
 }
 
 .flexbox {
     display: flex;
-    padding: 10px 0;
-    border-bottom: 1px dashed #8E8E8E;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
     position: relative;
+    transition: all 0.2s;
+    box-shadow: 0 0 3px lightsteelblue;
 }
+
+.flexbox:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 6px lightsteelblue;
+}
+
 
 .main-word {
     padding: 2.5px 5px;
     margin: 2.5px;
     font-size: 1.1rem;
-    white-space: nowrap;
-}
-
-.main-tag {
-    padding: 2.5px 5px;
-    margin: 7.5px 2px 0;
-    height: 15px;
-    line-height: 33px;
-    background-color: #AFAFAF;
-    color: #FFF;
-    border-radius: 5px;
     white-space: nowrap;
 }
 
@@ -220,10 +219,13 @@ main {
     line-height: 1.1rem;
 }
 
-.edit-submit-btn {
+.edit-submit-form {
     position: absolute;
-    bottom: 10px;
-    right: 5px;
+    bottom: 0;
+    right: 0;
+}
+
+.edit-submit-btn {
     background: content-box;
     border: none;
     cursor: pointer;
@@ -232,7 +234,7 @@ main {
 }
 
 .content-container {
-    padding: 30px;
+    padding: 60px 30px 0;
 }
 
 .content-titles {
@@ -248,7 +250,6 @@ main {
 
 .add-word-form {
     position: relative;
-    padding-top: 50px;
 }
 
 .word-input {
@@ -271,10 +272,6 @@ main {
     border-width: 0px 0px 1px 0px;
 }
 
-.tag-container div {
-    margin-top: 15px;
-}
-
 .tag-container div input {
     -webkit-appearance:none;
     -moz-appearance:none;
@@ -282,14 +279,17 @@ main {
 }
 
 .tag-container div label {
-    margin-right: 10px;
-    margin-bottom: 10px; 
+    margin: 5px;
     padding: 3px 10px;
     background: white;
     border-radius: 15px;
     position: relative;
     transition: .2s;
     cursor: pointer;
+}
+
+.tagDiv {
+    max-width: 150px;
 }
 
 
@@ -299,18 +299,6 @@ main {
     border: none;
 }
 
-#meaning-textarea {
-    margin: 10px 0;
-    padding: 10px;
-    box-sizing: border-box;
-    width: 100%;
-    background: content-box;
-    border: 1px dashed #707070;
-    border-radius: 15px;
-    outline: none;
-    font-size: .8rem;
-}
-
 #cancel-form {
     display: flex;
     float: right;
@@ -318,14 +306,6 @@ main {
 }
 
 #cancel-btn {
-    background-color: #f0f0f0;
-    border: lightgray;
-    border-radius: 5px;
-    padding: 7px 10px;
-    text-decoration: none;
-    font-size: 1rem;
-    color: grey;
-    cursor: pointer;
     margin-top: 20px;
 }
 
@@ -336,7 +316,6 @@ main {
 }
 
 .category-container {
-    margin-top: 10px;
     display: flex;
     flex-wrap: wrap;
 }
@@ -344,6 +323,9 @@ main {
 .category-container label {
     margin-left: 10px;
     white-space: nowrap;
+}
+.category-container label input {
+    margin-right: 5px;   
 }
 
 /*
@@ -386,9 +368,5 @@ main {
     width: fit-content;
     margin: 10px 0 0 10px;
     padding: 5px 10px;
-    background: lightsalmon;
-    color: white;
-    border: none;
-    border-radius: 5px;
     cursor: pointer;
 }
