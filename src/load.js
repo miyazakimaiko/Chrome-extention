@@ -10,6 +10,7 @@ chrome.storage.local.get({ tagData:[] }, (items) => {
         const tagInput = document.createElement('input')
               tagInput.setAttribute('id', `tag${i}-input`)
               tagInput.setAttribute('type', 'checkbox')
+              tagInput.setAttribute('form', 'add-word-form')
 
         const tagLabel = document.createElement('label')
               tagLabel.textContent = items.tagData[i];
@@ -148,18 +149,20 @@ const displayWords = (root, location, storage) => {
               editSubmit.setAttribute('type', 'submit')
               editSubmit.setAttribute('class', 'edit-submit-btn')
 
-        const fontAwesome = document.createElement('i')
+        const editSpan = document.createElement('span')
+              editSpan.setAttribute('class', 'edit-span')
+              editSpan.innerHTML = "Edit";
 
         wordLi.appendChild(editForm)
         editForm.appendChild(editSubmit)
-        editSubmit.appendChild(fontAwesome)
+        editSubmit.appendChild(editSpan)
 
         wordLi.addEventListener("mouseenter", () => {
-            fontAwesome.setAttribute('class', 'fas fa-edit')
+            editSpan.classList.add('display')
         }, false);
 
         wordLi.addEventListener("mouseleave", () => {
-            fontAwesome.removeAttribute('class')
+            editSpan.classList.remove('display')
         }, false);
 
         // Pull down word-edit form
@@ -313,3 +316,24 @@ chrome.storage.local.get({ catData:[] }, (items) => {
     }
 
 });
+
+
+const OpenForm = (btn, form) => {
+    btn.addEventListener("click", () => {
+        form.classList.toggle("tag-modal")
+    });
+}
+
+const tagOpenBtn = document.getElementById("tag-form-open-btn");
+const tagForm = document.getElementById("tag-modal");
+OpenForm(tagOpenBtn, tagForm);
+
+const tagCloseBtn = document.querySelector(".tag-close-btn")
+OpenForm(tagCloseBtn, tagForm);
+
+const catOpenBtn = document.getElementById("cat-form-open-btn");
+const catForm = document.getElementById("cat-modal");
+OpenForm(catOpenBtn, catForm);
+
+const catCloseBtn = document.querySelector(".cat-close-btn")
+OpenForm(catCloseBtn, catForm);
