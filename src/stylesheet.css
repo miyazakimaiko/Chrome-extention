@@ -7,6 +7,7 @@ html {
 body {
     font-family: 'Lato', sans-serif;
     position: relative;
+    display: inline-table;
     min-height: 100%;
     top: 0;
     right: 0;
@@ -176,6 +177,15 @@ header {
     cursor: pointer;
 }
 
+.tag-cat-btn-wrapper {
+    display: inline;
+}
+
+#alert-success-t,
+#alert-success-c {
+    display: none;
+}
+
 main {
     z-index: -1;
     padding-top: 60px;
@@ -233,6 +243,15 @@ main {
     font-size: .8rem;
 }
 
+.edit-span {
+    display: none;
+    text-decoration: underline;
+}
+
+.display {
+    display: inline;
+}
+
 .content-container {
     padding: 60px 30px 0;
 }
@@ -262,6 +281,26 @@ main {
     background: unset;
     text-decoration: none;
     outline: none;
+}
+
+.titles-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.collapsible {
+    background: none;
+    border: none;
+    border-bottom: 1px solid;
+    padding: 0;
+    color: inherit;
+}
+
+.tag-modal {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.5)
 }
 
 .tag-container {
