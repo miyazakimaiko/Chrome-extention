@@ -18,38 +18,43 @@
 
                 <div id="add-word-drawer">
                     <input id="add-word-input" class="add-word-input" type="checkbox" class="add-word-unshown">
+
                     <label id="add-word-open" class="add-word-open" for="add-word-input">
                         <span class="add-word-btn btn btn-outline-success">Add a new word</span>
                     </label>
+
+                    <div class="tag-cat-btn-wrapper">
+                        <button type="button" class="collapsible" id="tag-form-open-btn">Add tag</button>
+                        <button type="button" class="collapsible" id="cat-form-open-btn">Add category</button>
+                    </div>
+
                     <div id="add-word-content">
                         <div class="content-container">
-
                             <!-- content of add-word-drawer -->
                             <form class="add-word-form" id="add-word-form">
-
-                                <label for="vocabulary" class="content-titles">Vocabulary</label>
-                                <input id="vocabulary" class="word-input form-control" type="text">
-                                
-                                <p class="content-titles">Tags</p>
-                                <div class="tag-container tag-form-control" id="tag-container"></div>
-
-                                <div class="meaning-container">
-                                    <p class="content-titles">Meaning</p>
-                                    <textarea name="meaning" id="meaning-textarea" class="form-control" rows="3"></textarea>
-                                </div>
-
-                                <p class="content-titles">Category</p>
-                                <div class="category-container tag-form-control" id="category-container"></div>
-
-                                <input type="hidden" id="id-sender">
-
-                                <button class="add-word-btn add-word-submit btn btn-info" type="submit">Submit</button>
-
                             </form>
+
+                            <label for="vocabulary" class="content-titles">Vocabulary</label>
+                            <input id="vocabulary" class="word-input form-control" type="text" form="add-word-form">
+                            
+                            <p class="content-titles">Tags</p>
+                            <div class="tag-container tag-form-control" id="tag-container"></div>
+
+                            <div class="meaning-container">
+                                <p class="content-titles">Meaning</p>
+                                <textarea name="meaning" id="meaning-textarea" class="form-control" rows="3" form="add-word-form"></textarea>
+                            </div>
+
+                            <p class="content-titles">Category</p>
+                            <div class="category-container tag-form-control" id="category-container"></div>
+
+                            <input type="hidden" id="id-sender" form="add-word-form">
+
+                            <button class="add-word-btn add-word-submit btn btn-info" type="submit" form="add-word-form">Submit</button>
+
                             <form id="cancel-form">
                                 <button id="cancel-btn" class="btn btn-secondary" type="submit">Cancel</button>
                             </form>
-
                         </div>
                     </div>
                 </div>
@@ -58,9 +63,9 @@
                     <input id="nav-input" class="nav-input" type="checkbox" class="nav-unshown">
                     <label id="nav-open" for="nav-input"><span></span></label>
                     <label id="nav-close" class="nav-unshown" for="nav-input"></label>
+
                     <div id="nav-content">
                         <div class="content-container">
-
                             <!-- nav-drawer contents-->
                             <div id="nav-cat-container">
                                 <big>Category</big>
@@ -70,23 +75,6 @@
                                     </form>
                                 </div>
                             </div>
-
-                            <form class="add-container" id="add-tags">
-                                <big>Add Tag</big>
-                                <div>
-                                    <input class="tag-input" id="tag-input" type="text">
-                                    <button type="submit" class="btn btn-outline-info">Submit</button>
-                                </div>
-                            </form>
-
-                            <form class="add-container" id="add-category">
-                                <big>Add Category</big>
-                                <div>
-                                    <input class="category-input" id="category-input" type="text">
-                                    <button type="submit" class="btn btn-outline-info">Submit</button>
-                                </div>
-                            </form>
-
                         </div><!-- content-container -->
                     </div>
                 </div>
@@ -94,6 +82,56 @@
             </div>
 
         </header>
+
+        <div class="modal" id="tag-modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add a tag</h5>
+                        <button type="button" class="close tag-close-btn" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="alert alert-dismissible" id="alert-success-t">
+                    </div>
+
+                    <form class="add-tag-form" id="add-tags">
+                        <div class="modal-body">
+                            <input class="add-tag form-control" type="text" id="tag-input">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-outline-info">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="cat-modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add a category</h5>
+                        <button type="button" class="close cat-close-btn" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="alert alert-dismissible alert-success" id="alert-success-c">
+                    </div>
+
+                    <form class="add-cat-form" id="add-category">
+                        <div class="modal-body">
+                            <input class="add-category form-control" type="text" id="category-input">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-outline-info">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
         <!--=================================
         MAIN SECTION-->
