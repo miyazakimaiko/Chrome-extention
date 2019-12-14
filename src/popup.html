@@ -15,48 +15,10 @@
         HEADER -->
         <header>
             <div class="header-container">
-
-                <div id="add-word-drawer">
-                    <input id="add-word-input" class="add-word-input" type="checkbox" class="add-word-unshown">
-
-                    <label id="add-word-open" class="add-word-open" for="add-word-input">
-                        <span class="add-word-btn btn btn-outline-success">Add a new word</span>
-                    </label>
-
-                    <div class="tag-cat-btn-wrapper">
-                        <button type="button" class="collapsible" id="tag-form-open-btn">Add tag</button>
-                        <button type="button" class="collapsible" id="cat-form-open-btn">Add category</button>
-                    </div>
-
-                    <div id="add-word-content">
-                        <div class="content-container">
-                            <!-- content of add-word-drawer -->
-                            <form class="add-word-form" id="add-word-form">
-                            </form>
-
-                            <label for="vocabulary" class="content-titles">Vocabulary</label>
-                            <input id="vocabulary" class="word-input form-control" type="text" form="add-word-form">
-                            
-                            <p class="content-titles">Tags</p>
-                            <div class="tag-container tag-form-control" id="tag-container"></div>
-
-                            <div class="meaning-container">
-                                <p class="content-titles">Meaning</p>
-                                <textarea name="meaning" id="meaning-textarea" class="form-control" rows="3" form="add-word-form"></textarea>
-                            </div>
-
-                            <p class="content-titles">Category</p>
-                            <div class="category-container tag-form-control" id="category-container"></div>
-
-                            <input type="hidden" id="id-sender" form="add-word-form">
-
-                            <button class="add-word-btn add-word-submit btn btn-info" type="submit" form="add-word-form">Submit</button>
-
-                            <form id="cancel-form">
-                                <button id="cancel-btn" class="btn btn-secondary" type="submit">Cancel</button>
-                            </form>
-                        </div>
-                    </div>
+                <div class="tag-cat-btn-wrapper">
+                    <button type="button" class="collapsible" id="add-word-form-open-btn">Add a new word</button>
+                    <button type="button" class="collapsible" id="tag-form-open-btn">Create Tags</button>
+                    <button type="button" class="collapsible" id="cat-form-open-btn">Create Categories</button>
                 </div>
 
                 <div id="nav-drawer">
@@ -78,16 +40,61 @@
                         </div><!-- content-container -->
                     </div>
                 </div>
-
             </div>
-
         </header>
+
+        <div class="modal" id="word-modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="word-modal-title">Add a word</h5>
+                        <button type="button" class="close word-close-btn" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="alert alert-dismissible" id="alert-success-w"></div>
+
+                    <div class="content-container">
+                        <!-- content of add-word-drawer -->
+                        <form class="add-word-form" id="add-word-form">
+                            <label for="vocabulary" class="content-titles">Vocabulary</label>
+                            <input id="vocabulary" class="word-input form-control" type="text" form="add-word-form">
+                            
+                            <p class="content-titles">Tags</p>
+                            <div class="tag-container-wrapper tag-form-control">
+                                <div class="tag-container" id="tag-container">
+                                </div>
+                            </div>
+
+                            <div class="meaning-container">
+                                <p class="content-titles">Meaning</p>
+                                <textarea name="meaning" id="meaning-textarea" class="form-control" rows="3" form="add-word-form"></textarea>
+                            </div>
+
+                            <p class="content-titles">Category</p>
+                            <div class="category-container-wrapper tag-form-control">
+                                <div class="category-container" id="category-container">
+                                </div>
+                            </div>
+
+                            <input type="hidden" id="id-sender" form="add-word-form">
+                            <button id="add-word-submit" class="add-word-btn add-word-submit btn btn-info" type="submit">Submit</button>
+                        </form>
+
+                        <form id="cancel-form">
+                            <button id="cancel-btn" class="btn btn-secondary" type="submit">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="modal" id="tag-modal">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Add a tag</h5>
+                        <h5 class="modal-title">Create a tag</h5>
                         <button type="button" class="close tag-close-btn" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -112,7 +119,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Add a category</h5>
+                        <h5 class="modal-title">Create a category</h5>
                         <button type="button" class="close cat-close-btn" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -133,12 +140,68 @@
             </div>
         </div>
 
+        <div class="modal" id="delete-modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete a word</h5>
+                        <button type="button" class="close delete-close-btn" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="alert alert-dismissible alert-success" id="alert-success-c">
+                    </div>
+
+                    <p class="delete-message"></p>
+                    <div class="modal-footer">
+                        <button id="delete-cancel-btn" class="btn btn-secondary" type="submit">Cancel</button>
+                        <form class="delete-word-form" id="delete-word-form">
+                            <button type="submit" class="btn btn-outline-info">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!--=================================
         MAIN SECTION-->
         <main>
             <ul class="words-ul" id="words-ul">
+                <div class="introduction-top">
+                    <h1>Hi! Thank you so much for adding Vocab Note on your chrome browser.</h1>
+                    <p>You can add vocaburary from the button on the top-left of this page, and when you submit it, the vocaburary will be displayed like this:</p>
+                </div>
+                <li class="flexbox sample-w">
+                    <div class="main-word" id="main-word-Sample1795237">
+                        Sample
+                        <div class="main-word-description" id="main-word-description">
+                            <p>This part, added vocaburary will be displayed.</p>
+                        </div>
+                    </div>
+                    <div class="tagDiv" id="tagDivSample1795237">
+                        <span class="badge badge-pill badge-success">verb</span>
+                        <span class="badge badge-pill badge-success">noun</span>
+                        <div class="tag-description" id="tag-description">
+                            <p>This part, added tags will be displayed. You can set multiple.<br><br>[Create tags] to create new tags.</p>
+                        </div>
+                    </div>
+                    <div class="main-meaning" id="main-meaningSample1795237">
+                        a small part or quantity intended to show what the whole is like.
+                        <div class="meaning-description" id="meaning-description">
+                            <p>This part is for the description for the vocabulary.</p>
+                        </div>
+                    </div>
+                    <button type="submit" id="delete-btnSample1795237" class="delete-btn display"></button>
+                    <button type="submit" id="edit-submit-btnSample1795237" class="edit-submit-btn display"></button>
+                </li>
+                <div class="introduction-bottom">
+                    <p>Tag form and Category form should be empty for now, so you can create them from [Create tags] and [Create Categories] button.</p>
+                </div>
             </ul>
         </main>
+
+    <script src="functions.js"></script>
     <script src="save.js"></script>
     <script src="load.js"></script>
     </body>
