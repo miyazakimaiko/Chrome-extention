@@ -29,19 +29,6 @@ if ( document.getElementById('add-tags') ) {
 
 }
 
-const showAlert = (alert) => {
-    alert.style.display = "flex";
-    setTimeout(function() { 
-        clearAlert(alert) 
-    }, 3000);
-}
-
-const clearAlert = (alert) => {
-    alert.style.display = "none";
-    alert.classList.remove('alert-danger')
-}
-
-
 // Create categories
 if ( document.getElementById('add-category') ) {
 
@@ -63,7 +50,7 @@ if ( document.getElementById('add-category') ) {
                 alert.innerHTML = `Successfully added a category [${newCat}].`;
             } else {
                 alert.classList.add('alert-danger')
-                alert.innerHTML = `Tag[${newCat}] already exists.`;
+                alert.innerHTML = `Category[${newCat}] already exists.`;
             }
             showAlert(alert);
 
@@ -80,70 +67,10 @@ if ( document.getElementById('add-word-form') ) {
 
         chrome.storage.local.get(null, (items) => {
 
-            // Create ID"
-            if (items.countId === undefined || items.countId === 0) {
-                let id = 1
-                items.countId = id;
-                chrome.storage.local.set(items);
-            } else {
-                items.countId++
-                chrome.storage.local.set(items);
-            }
-
-            // init array
-            if(!items.wordInfo){
-                items.wordInfo = [];
-            }
-            const newWord = { id:0, word:"", tag:[], category:"", meanings:"" };
-
-            // Add ID
-            const cId = items.countId;
-            newWord.id = cId;
-
-            // Push word
-            let vocab = document.getElementById('vocabulary').value;
-            newWord.word = vocab;
-
-            // Push meaning
-            let meaning = document.getElementById('meaning-textarea').value;
-            newWord.meanings = meaning;
-
-            // Push tag
-            let tagEl = document.getElementById('tag-container');
-
-            let tags = tagEl.getElementsByTagName('input');
-
-            for (let i = 0; i < tags.length; i++ ) {
-                
-                if (tags[i].checked) {
-                    let checkedLabel = document.getElementById(`tag${i}-label`).textContent;
-                    newWord.tag.push(checkedLabel)
-                }
-
-            }
-
-            // Push category
-            let catEl = document.getElementById('category-container');
-
-            let cat = catEl.getElementsByTagName('input');
-
-            for (let i = 0; i < cat.length; i++ ) {
-                if (cat[i].checked) {
-                    let checkedSpan = document.getElementById(`cat${i}-span`).textContent;
-                    newWord.category = checkedSpan;
-                }
-            }
-
-            if(items.wordInfo === undefined ) {
-                items.wordInfo[0] = newWord;
-            } else {
-                items.wordInfo.unshift(newWord); 
-            }
-
-            chrome.storage.local.set(items);
-
+            saveWord(items);
+            
         });
-
+        return false;
     }
 
 }
