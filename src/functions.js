@@ -13,12 +13,18 @@ const showAlert = (alert) => {
 const saveWord = (items) => {
     // Get the vocaburary
     let vocab = document.getElementById('vocabulary').value;
+    const wordAlert = document.getElementById("alert-success-w")
     // init array
     if(!items.wordInfo){
         items.wordInfo = {};
-    }
+    } 
     if(items.wordInfo[vocab] == null) {
         items.wordInfo[vocab] = { id:0, tag:[], category:"", meanings:"" };
+    } else {
+        wordAlert.classList.add('alert-danger')
+        wordAlert.innerHTML = `Word [${vocab}] already exists.`;
+        showAlert(wordAlert);
+        return false;
     }
 
     // Create ID
@@ -66,28 +72,35 @@ const saveWord = (items) => {
     }
 
     chrome.storage.local.set(items);
+    wordAlert.classList.add('alert-success')
+    wordAlert.innerHTML = 'Successfully added.';
+    showAlert(wordAlert);
 }
 
 
 const displayWords = (root, location, storage) => {
     // O(n)
+    const wordUl = document.getElementById('words-ul')
+
+    if (Object.entries(storage).length === 0) {
+        ///.introduction-top,
+        //.sample-w,
+        //.introduction-bottom
+        const introTop = document.querySelector('.introduction-top')
+        const introSample = document.querySelector('.sample-w')
+        const introBtm = document.querySelector('.introduction-bottom')
+              introTop.classList.add('display-block')
+              introSample.classList.add('display-flex')
+              introBtm.classList.add('display-block')
+    }
+
     for( let i in storage ) {
-        // Build main-area with words
-        // Main <ul> 
-        const wordUl = document.getElementById('words-ul')
-        // Message if there's no data
-        const message = document.createElement('p')
-              message.textContent = ('You can add tags from side bar!')
-        
-        if ( storage.length === 0 ) {
-            wordUl.appendChild(message)   
-        }
         // <li>
         const wordLi = document.createElement('li')
               wordLi.setAttribute('class', 'flexbox')
 
         // First <p> word
-        const wordPara1 = document.createElement('p')
+        const wordPara1 = document.createElement('div')
               wordPara1.setAttribute('class', 'main-word')
               wordPara1.setAttribute('id', `main-word-${i}`)
               wordPara1.textContent = i
@@ -109,9 +122,10 @@ const displayWords = (root, location, storage) => {
                   divTag.appendChild(tagSpan)
         }
         // Second <p> meaning
-        const wordPara2 = document.createElement('p')
+        const wordPara2 = document.createElement('div')
               wordPara2.textContent = storage[i].meanings
               wordPara2.setAttribute('class', 'main-meaning')
+              wordPara2.setAttribute('id', `main-meaning${i}`)
 
         wordLi.appendChild(wordPara2)
         
