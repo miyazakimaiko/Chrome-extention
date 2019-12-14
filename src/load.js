@@ -86,194 +86,12 @@ chrome.storage.local.get({ catData:[] }, (items) => {
 
 chrome.storage.local.get(null, (items) => {
     console.log(items.countId)
-    console.log(items.wordInfo)
+    let words = items.wordInfo;
+    console.log(words)
     console.log(items.catData)
     console.log(items.tagData)
 
 });
-
-// To display words
-const displayWords = (root, location, storage) => {
-
-    // O(n)
-    for( let i = 0; i < storage.length; i++ ) {
-        // Build main-area with words
-        // Main <ul> 
-        const wordUl = document.getElementById('words-ul')
-        // Message if there's no data
-        const message = document.createElement('p')
-              message.textContent = ('You can add tags from side bar!')
-        
-        if ( storage.length === 0 ) {
-            wordUl.appendChild(message)   
-        }
-        // <li>
-        const wordLi = document.createElement('li')
-              wordLi.setAttribute('class', 'flexbox')
-
-        // First <p> word
-        const wordPara1 = document.createElement('p')
-              wordPara1.setAttribute('class', 'main-word')
-              wordPara1.setAttribute('id', `main-word-${i}`)
-              wordPara1.textContent = storage[i].word
-        // <div> for tag's <span>
-        const tagDiv = document.createElement('div')
-              tagDiv.setAttribute('class', 'tagDiv')
-              tagDiv.setAttribute('id', `tagDiv${i}`)
-
-        wordUl.appendChild(wordLi)
-        wordLi.appendChild(wordPara1)
-        wordLi.appendChild(tagDiv)
-
-        // Tag's <span> O(n2)
-        for (let j = 0; j < storage[i].tag.length; j++ ) {
-            const divTag = document.getElementById(`tagDiv${i}`)
-            const tagSpan = document.createElement('span')
-                  tagSpan.textContent = storage[i].tag[j]
-                  tagSpan.setAttribute('class', 'badge badge-pill badge-success')
-                  divTag.appendChild(tagSpan)
-        }
-        // Second <p> meaning
-        const wordPara2 = document.createElement('p')
-              wordPara2.textContent = storage[i].meanings
-              wordPara2.setAttribute('class', 'main-meaning')
-
-        wordLi.appendChild(wordPara2)
-
-        // Edit button
-        const editForm = document.createElement('form')
-              editForm.setAttribute('class', 'edit-submit-form')
-              editForm.setAttribute('id',`edit-submit-form${i}`)
-        
-        const editSubmit = document.createElement('button')
-              editSubmit.setAttribute('type', 'submit')
-              editSubmit.setAttribute('class', 'edit-submit-btn')
-
-        const editSpan = document.createElement('span')
-              editSpan.setAttribute('class', 'edit-span')
-              editSpan.innerHTML = "Edit";
-
-        wordLi.appendChild(editForm)
-        editForm.appendChild(editSubmit)
-        editSubmit.appendChild(editSpan)
-
-        wordLi.addEventListener("mouseenter", () => {
-            editSpan.classList.add('display')
-        }, false);
-
-        wordLi.addEventListener("mouseleave", () => {
-            editSpan.classList.remove('display')
-        }, false);
-
-        // Pull down word-edit form
-        document.getElementById(`edit-submit-form${i}`).onsubmit = () => {
-            
-            const input = document.getElementById('add-word-input')
-                  input.checked = true;
-            // Change ID so the form can send different way
-            const editWordForm = document.getElementById('add-word-form')
-                  editWordForm.id = 'edit-word-form'
-            // Display data related to the button that is submitted
-            //// ID
-            document.getElementById('id-sender').value = storage[i].id
-            //// word
-            document.getElementById('vocabulary').value = storage[i].word
-            //// meaning
-            document.getElementById('meaning-textarea').value = storage[i].meanings
-            //// tag
-            chrome.storage.local.get({ tagData:[] }, (items) => {
-
-                // O(n2)
-                for (let k = 0; k < items.tagData.length; k++ ) {
-
-                    const a = items.tagData[k]
-                    //O(n3)
-                    for (let l = 0; l < storage[i].tag.length; l++ ) {
-                        const b = storage[i].tag[l]
-                        if ( a === b ) {
-                            document.getElementById(`tag${k}-input`).checked = true
-                        }
-                    }
-                    
-                }
-            });
-            //// category
-            chrome.storage.local.get({ catData:[] }, (items) => {
-
-                for (let k = 0; k < items.catData.length; k++ ) {
-                    const a = items.catData[k]
-                    const b = storage[i].category
-                    if ( a === b ) {
-                        document.getElementById(`cat${k}-input`).checked = true
-                    }
-
-                }
-            });
-
-            document.getElementById('cancel-form').onsubmit = () => {
-
-                if ( document.getElementById('edit-word-form') ) {
-                    document.getElementById('edit-word-form').id = 'add-word-form'
-                    // Close the pull down window
-                    input.checked = false;
-                } else {
-                    input.checked = false;
-                }
-
-            }
-
-            // Set data into storage.local
-            document.getElementById('edit-word-form').onsubmit = () => {
-
-                let editedWord = { id:'', word:'', tag:[], category:'', meanings:'' };
-                    editedWord.id = document.getElementById('id-sender').value
-                    editedWord.word = document.getElementById('vocabulary').value
-                    editedWord.meanings = document.getElementById('meaning-textarea').value
-
-                // Push tag
-                const tagEl = document.getElementById('tag-container');
-                const tags = tagEl.getElementsByTagName('input');
-                for (let l = 0; l < tags.length ; l++ ) {
-            
-                    if (tags[l].checked) {
-                        const nTag = document.getElementById(`tag${l}-label`).textContent;
-                        editedWord.tag.push(nTag);
-                    }
-        
-                }
-
-                // Push category
-                const catEl = document.getElementById('category-container')
-                const cat = catEl.getElementsByTagName('input')
-                for (let m = 0; m < cat.length; m++ ) {
-                    
-                    if (cat[m].checked) {
-                        let checkedSpan = document.getElementById(`cat${m}-span`).textContent;
-                        editedWord.category = checkedSpan;
-                    }
-
-                }
-
-                for (let n = 0; n < location.length; n++ ) {
-                    if ( location[n].id == editedWord.id ) {
-                        location[n] = editedWord
-                        chrome.storage.local.set(root)
-                        alert('Successfully edited!')
-                    } 
-                }
-                
-                const putBackWordForm = document.getElementById('edit-word-form')
-                putBackWordForm.id = 'add-word-form'
-
-            }
-            return false;
-  
-        };
-
-
-    }
-
-}
 
 
 // Display all words (default)
@@ -297,15 +115,14 @@ chrome.storage.local.get({ catData:[] }, (items) => {
             chrome.storage.local.get({ wordInfo:[] }, (items) => {
 
                 const keyword = document.getElementById(`submit${h}`).textContent
-                const allItems = items.wordInfo
+                const allItems = items.wordInfo;
+                let result = {};
 
-                const filterByCategory = (item) => {
-                    if ( item.category === keyword ) {
-                        return true
+                for (let i in allItems) {
+                    if ( allItems[i].category === keyword ) {
+                        result[i] = allItems[i];
                     }
                 }
-
-                let result = allItems.filter(filterByCategory);
                 displayWords(items, items.wordInfo, result);
 
             });
@@ -317,12 +134,22 @@ chrome.storage.local.get({ catData:[] }, (items) => {
 
 });
 
-
 const OpenForm = (btn, form) => {
     btn.addEventListener("click", () => {
-        form.classList.toggle("tag-modal")
+        if (form.classList.contains("display-modal")) {
+            location.reload();
+        } else if (!form.classList.contains("display-modal")) {
+        form.classList.add("display-modal");
+        }
     });
 }
+
+const addWordOpenBtn = document.getElementById("add-word-form-open-btn");
+const wordForm = document.getElementById("word-modal")
+OpenForm(addWordOpenBtn, wordForm);
+
+const addWordCloseBtn = document.querySelector(".word-close-btn")
+OpenForm(addWordCloseBtn, wordForm)
 
 const tagOpenBtn = document.getElementById("tag-form-open-btn");
 const tagForm = document.getElementById("tag-modal");
@@ -337,3 +164,38 @@ OpenForm(catOpenBtn, catForm);
 
 const catCloseBtn = document.querySelector(".cat-close-btn")
 OpenForm(catCloseBtn, catForm);
+
+const deleteCloseBtn = document.querySelector(".delete-close-btn")
+const deleteForm = document.getElementById("delete-modal")
+OpenForm(deleteCloseBtn, deleteForm)
+
+const deleteCancelBtn = document.getElementById("delete-cancel-btn")
+OpenForm(deleteCancelBtn, deleteForm)
+
+
+const mainWordSample = document.getElementById("main-word-Sample1795237")
+const mainWordDescription = document.getElementById("main-word-description")
+mainWordSample.addEventListener("mouseenter", () => {
+    mainWordDescription.classList.add('display-block')
+}, false);
+mainWordSample.addEventListener("mouseleave", () => {
+    mainWordDescription.classList.remove('display-block')
+}, false);
+
+const tagSample = document.getElementById("tagDivSample1795237")
+const tagDescription = document.getElementById("tag-description")
+tagSample.addEventListener("mouseenter", () => {
+    tagDescription.classList.add('display-block')
+}, false);
+tagSample.addEventListener("mouseleave", () => {
+    tagDescription.classList.remove('display-block')
+}, false);
+
+const meaningSample = document.getElementById("main-meaningSample1795237")
+const meaningDescription = document.getElementById("meaning-description")
+meaningSample.addEventListener("mouseenter", () => {
+    meaningDescription.classList.add('display-block')
+}, false);
+meaningSample.addEventListener("mouseleave", () => {
+    meaningDescription.classList.remove('display-block')
+}, false);
