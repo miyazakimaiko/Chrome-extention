@@ -1,88 +1,178 @@
 // Load tag data from storage
 chrome.storage.local.get({ tagData:[] }, (items) => {
-
     for(let i = 0; i < items.tagData.length; i++ ) {
-
-        const tagContainer = document.getElementById('tag-container')
-
-        const tagDiv = document.createElement('div')
-
-        const tagInput = document.createElement('input')
-              tagInput.setAttribute('id', `tag${i}-input`)
-              tagInput.setAttribute('type', 'checkbox')
-              tagInput.setAttribute('form', 'add-word-form')
-
-        const tagLabel = document.createElement('label')
-              tagLabel.textContent = items.tagData[i];
-              tagLabel.setAttribute('for', `tag${i}-input`)
-              tagLabel.setAttribute('id', `tag${i}-label`)
-
-        tagContainer.appendChild(tagDiv)
-        tagDiv.appendChild(tagInput)
-        tagDiv.appendChild(tagLabel)
-            
+        displayTagsInAddWordPage(items.tagData, i);
     }
-
 });
+
+//----------------------------------------------------------------------//
+
+const displayTagsInAddWordPage = (item, index) => {
+    const tagContainer = document.getElementById('tag-container')
+    const tagDiv       = document.createElement('div')
+    const tagInput     = document.createElement('input')
+                        tagInput.setAttribute('id', `tag${index}-input`)
+                        tagInput.setAttribute('type', 'checkbox')
+                        tagInput.setAttribute('form', 'add-word-form')
+    const tagLabel     = document.createElement('label')
+                        tagLabel.textContent = item[index];
+                        tagLabel.setAttribute('for', `tag${index}-input`)
+                        tagLabel.setAttribute('id', `tag${index}-label`)
+
+    tagContainer.appendChild(tagDiv)
+    tagDiv.appendChild(tagInput)
+    tagDiv.appendChild(tagLabel)
+}
+
+//----------------------------------------------------------------------//
 
 // Load category data from storage
 chrome.storage.local.get({ catData:[] }, (items) => {
 
     for(let i = 0; i < items.catData.length; i++ ) {
-        
-        // Display them on add-word-drawer contents
-        const catContainer = document.getElementById('category-container')
+        displayCategoriesInAddWordPage(items.catData, i)
+        displayCategoriesInNaviPage(items.catData, i)
 
-        const catLabel = document.createElement('label')
+        document.getElementById(`cat-edit-btn${i}`).addEventListener("click", () => {
+            
+            const catModal = document.getElementById("cat-modal")
+            openModal(catModal)
+            changeId('add-category', 'edit-category')
+            document.getElementById('category-modal-title').textContent = 'Edit Category Name'
+            document.getElementById('category-input').value = items.catData[i]
 
-        const catInput = document.createElement('input')
-              catInput.setAttribute('type', 'radio')
-              catInput.setAttribute('id', `cat${i}-input`)
-              catInput.setAttribute('name', 'category')
 
-        const catSpan = document.createElement('span')
-              catSpan.textContent = items.catData[i];
-              catSpan.setAttribute('id', `cat${i}-span`)
+            // Set data into storage.local
+            document.getElementById('edit-category').onsubmit = () => {
 
-        catContainer.appendChild(catLabel)
-        catLabel.appendChild(catInput)
-        catLabel.appendChild(catSpan)
+                const newCategoryName = document.getElementById('category-input').value
+                const categoryAlert = document.getElementById("alert-success-c")
 
-        // Display them on nav-drawer contents
-        const navContainer = document.getElementById('nav-cat-container')
+                chrome.storage.local.get(null, (items) => {
+                    // ----------------------------------------------------------------------need to add validation -------------------------
+                    if (items.catData.indexOf(newCategoryName) === -1) {
+                        for (let j in items.wordInfo) {
+                            if (items.wordInfo[j].category === items.catData[i]) {
+                                items.wordInfo[j].category = newCategoryName
+                            }
+                        }
+                        items.catData[i] = newCategoryName;
+                        chrome.storage.local.set(items);
 
-        const navDiv = document.createElement('div')
-
-        const navForm = document.createElement('form')
-              navForm.setAttribute('id', `cat-form${i}`)
-              navForm.setAttribute('class', 'cat-form')        
-
-        const navBtn = document.createElement('button')
-              navBtn.setAttribute('type', 'submit')
-              navBtn.setAttribute('id', `submit${i}`)
-              navBtn.setAttribute('class', 'category-btn')
-              navBtn.textContent = items.catData[i];
-
-        navContainer.appendChild(navDiv)
-        navDiv.appendChild(navForm)
-        navForm.appendChild(navBtn)
-
-        // Close nav bar when clicking category btn
-        const input = document.getElementById('nav-input')
-        const hmbBtn = document.getElementById('nav-open')
-
-        hmbBtn.addEventListener('click', () => {
-            input.setAttribute('class', 'nav-input');
-        });
-
-        navBtn.addEventListener('click', () => {
-            input.removeAttribute('class')
-            input.checked = false
+                        categoryAlert.classList.add('alert-success')
+                        categoryAlert.textContent = 'Successfully edited.';
+                        const putBackWordForm = document.getElementById('edit-category')
+                        putBackWordForm.id = 'add-category'
+                    } else {
+                        categoryAlert.classList.add('alert-danger')
+                        categoryAlert.textContent = 'This category name already exists.';
+                    }
+                });
+    
+                showAlert(categoryAlert);
+                return false;
+            }
+  
         });
 
     }
 
 });
+
+//----------------------------------------------------------------------//
+
+const displayCategoriesInAddWordPage = (item, index) => {
+
+    const catContainer = document.getElementById('category-container')
+    const catLabel     = document.createElement('label')
+    const catInput     = document.createElement('input')
+                         catInput.setAttribute('type', 'radio')
+                         catInput.setAttribute('id', `cat${index}-input`)
+                         catInput.setAttribute('name', 'category')
+    const catSpan      = document.createElement('span')
+                         catSpan.textContent = item[index];
+                         catSpan.setAttribute('id', `cat${index}-span`)
+
+    catContainer.appendChild(catLabel)
+    catLabel.appendChild(catInput)
+    catLabel.appendChild(catSpan)
+}
+
+//----------------------------------------------------------------------//
+
+const displayCategoriesInNaviPage = (item, index) => {
+
+    const navContainer = document.getElementById('nav-cat-container')
+    const navDiv       = document.createElement('div')
+                         navDiv.setAttribute('class', 'category-nav-wrapper')
+    const navForm      = document.createElement('form')
+                         navForm.setAttribute('id', `cat-form${index}`)
+                         navForm.setAttribute('class', 'cat-form')        
+    const navBtn       = document.createElement('button')
+                         navBtn.setAttribute('type', 'submit')
+                         navBtn.setAttribute('id', `submit${index}`)
+                         navBtn.setAttribute('class', 'category-btn')
+                         navBtn.textContent = item[index];
+    const catEditBtn   = document.createElement('button')
+                         catEditBtn.setAttribute('id', `cat-edit-btn${index}`)
+                         catEditBtn.setAttribute('class', 'cat-edit-btn')
+                         catEditBtn.textContent = 'Edit'
+
+    navContainer.appendChild(navDiv)
+    navDiv.appendChild(navForm)
+    navForm.appendChild(navBtn)
+    navDiv.appendChild(catEditBtn)
+
+    toggleDisplayOnMouseEnterAndLeave(navDiv, catEditBtn)
+    removeCheckWhenClikingCategory(navBtn)
+}
+
+//----------------------------------------------------------------------//
+
+const toggleDisplayOnMouseEnterAndLeave = (location, itemToToggle) => {
+    location.addEventListener("mouseenter", () => {
+        itemToToggle.classList.add('display')
+    }, false);
+
+    location.addEventListener("mouseleave", () => {
+        itemToToggle.classList.remove('display')
+    }, false);
+}
+
+//----------------------------------------------------------------------//
+
+const removeCheckWhenClikingCategory = (categoryBtn) => {
+    const input        = document.getElementById('nav-input')
+    const humbergerBtn = document.getElementById('nav-open')
+
+    humbergerBtn.addEventListener('click', () => {
+        input.setAttribute('class', 'nav-input');
+    });
+    categoryBtn.addEventListener('click', () => {
+        input.removeAttribute('class')
+        input.checked = false
+    });
+}
+
+//----------------------------------------------------------------------//
+
+const openModal = (modal) => {
+    if (modal.classList.contains("display-modal")) {
+        modal.classList.remove("display-modal");
+    } else if (!modal.classList.contains("display-modal")) {
+        modal.classList.add("display-modal");
+    };
+}
+
+//----------------------------------------------------------------------//
+
+
+const changeId = (targetId, newId) => {
+    document.getElementById(targetId).id = newId
+}
+
+//----------------------------------------------------------------------//
+
 
 chrome.storage.local.get(null, (items) => {
     console.log(items.countId)
