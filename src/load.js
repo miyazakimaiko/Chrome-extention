@@ -1,88 +1,91 @@
-// Load tag data from storage
-chrome.storage.local.get({ tagData:[] }, (items) => {
-    for(let i = 0; i < items.tagData.length; i++ ) {
-        displayTagsInAddWordPage(items.tagData, i);
+
+class WordList {
+    constructor() {
+        this.wordInfo = {};
+    }
+}
+
+class word {
+    constructor(word) {
+        this.keys = word
+        this.id = 0
+        this.meaning = null
+        this.tags = []
+        this.category = null
+    }
+}
+
+//----------------------------------------------------------------------//
+
+chrome.storage.local.get(null, (items) => {
+    const words      = items.wordInfo
+    const tags       = items.tagData
+    const categories = items.catData
+
+    if (words === undefined || Object.keys(words).length === 0) {
+        displayIntroduction();
+        const CreateWordList = new WordList
+        chrome.storage.local.set(CreateWordList)
+    } else {
+        displayWords(words);
+    }
+
+    if (tags !== undefined) {
+        for(let i = 0; i < tags.length; i++ ) {
+            displayTagsInAddWordPage(tags, i);
+        }
+    }
+
+    if (categories !== undefined) {
+        for(let i = 0; i < categories.length; i++ ) {
+            displayCategoriesInAddWordPage(categories, i)
+            displayCategoriesInNaviPage(categories, i)
+
+            document.getElementById(`cat-edit-btn${i}`).addEventListener("click", () => {
+                openEditCategoryModal(categories, i)
+
+                document.getElementById('edit-category').onsubmit = () => {
+                    saveEditedCategoryName(categories, words, items, i)
+                    return false;
+                }
+            });
+
+            document.getElementById(`cat-form${i}`).onsubmit = () => {
+                displaySelectedWordsByCategory(words, i);
+                return false;
+            };
+        }
     }
 });
 
 //----------------------------------------------------------------------//
-
+const displayIntroduction = () => {
+    const introTop    = document.querySelector('.introduction-top')
+    const introSample = document.querySelector('.sample-w')
+    const introBtm    = document.querySelector('.introduction-bottom')
+                        introTop.classList.add('display-block')
+                        introSample.classList.add('display-flex')
+                        introBtm.classList.add('display-block')
+}
+//----------------------------------------------------------------------//
 const displayTagsInAddWordPage = (item, index) => {
     const tagContainer = document.getElementById('tag-container')
     const tagDiv       = document.createElement('div')
     const tagInput     = document.createElement('input')
-                        tagInput.setAttribute('id', `tag${index}-input`)
-                        tagInput.setAttribute('type', 'checkbox')
-                        tagInput.setAttribute('form', 'add-word-form')
+                         tagInput.setAttribute('id', `tag${index}-input`)
+                         tagInput.setAttribute('type', 'checkbox')
+                         tagInput.setAttribute('form', 'add-word-form')
     const tagLabel     = document.createElement('label')
-                        tagLabel.textContent = item[index];
-                        tagLabel.setAttribute('for', `tag${index}-input`)
-                        tagLabel.setAttribute('id', `tag${index}-label`)
+                         tagLabel.textContent = item[index];
+                         tagLabel.setAttribute('for', `tag${index}-input`)
+                         tagLabel.setAttribute('id', `tag${index}-label`)
 
     tagContainer.appendChild(tagDiv)
     tagDiv.appendChild(tagInput)
     tagDiv.appendChild(tagLabel)
 }
-
 //----------------------------------------------------------------------//
-
-// Load category data from storage
-chrome.storage.local.get({ catData:[] }, (items) => {
-
-    for(let i = 0; i < items.catData.length; i++ ) {
-        displayCategoriesInAddWordPage(items.catData, i)
-        displayCategoriesInNaviPage(items.catData, i)
-
-        document.getElementById(`cat-edit-btn${i}`).addEventListener("click", () => {
-            
-            const catModal = document.getElementById("cat-modal")
-            openModal(catModal)
-            changeId('add-category', 'edit-category')
-            document.getElementById('category-modal-title').textContent = 'Edit Category Name'
-            document.getElementById('category-input').value = items.catData[i]
-
-
-            // Set data into storage.local
-            document.getElementById('edit-category').onsubmit = () => {
-
-                const newCategoryName = document.getElementById('category-input').value
-                const categoryAlert = document.getElementById("alert-success-c")
-
-                chrome.storage.local.get(null, (items) => {
-                    // ----------------------------------------------------------------------need to add validation -------------------------
-                    if (items.catData.indexOf(newCategoryName) === -1) {
-                        for (let j in items.wordInfo) {
-                            if (items.wordInfo[j].category === items.catData[i]) {
-                                items.wordInfo[j].category = newCategoryName
-                            }
-                        }
-                        items.catData[i] = newCategoryName;
-                        chrome.storage.local.set(items);
-
-                        categoryAlert.classList.add('alert-success')
-                        categoryAlert.textContent = 'Successfully edited.';
-                        const putBackWordForm = document.getElementById('edit-category')
-                        putBackWordForm.id = 'add-category'
-                    } else {
-                        categoryAlert.classList.add('alert-danger')
-                        categoryAlert.textContent = 'This category name already exists.';
-                    }
-                });
-    
-                showAlert(categoryAlert);
-                return false;
-            }
-  
-        });
-
-    }
-
-});
-
-//----------------------------------------------------------------------//
-
 const displayCategoriesInAddWordPage = (item, index) => {
-
     const catContainer = document.getElementById('category-container')
     const catLabel     = document.createElement('label')
     const catInput     = document.createElement('input')
@@ -97,11 +100,8 @@ const displayCategoriesInAddWordPage = (item, index) => {
     catLabel.appendChild(catInput)
     catLabel.appendChild(catSpan)
 }
-
 //----------------------------------------------------------------------//
-
 const displayCategoriesInNaviPage = (item, index) => {
-
     const navContainer = document.getElementById('nav-cat-container')
     const navDiv       = document.createElement('div')
                          navDiv.setAttribute('class', 'category-nav-wrapper')
@@ -117,7 +117,7 @@ const displayCategoriesInNaviPage = (item, index) => {
                          catEditBtn.setAttribute('id', `cat-edit-btn${index}`)
                          catEditBtn.setAttribute('class', 'cat-edit-btn')
                          catEditBtn.textContent = 'Edit'
-
+    
     navContainer.appendChild(navDiv)
     navDiv.appendChild(navForm)
     navForm.appendChild(navBtn)
@@ -126,9 +126,7 @@ const displayCategoriesInNaviPage = (item, index) => {
     toggleDisplayOnMouseEnterAndLeave(navDiv, catEditBtn)
     removeCheckWhenClikingCategory(navBtn)
 }
-
 //----------------------------------------------------------------------//
-
 const toggleDisplayOnMouseEnterAndLeave = (location, itemToToggle) => {
     location.addEventListener("mouseenter", () => {
         itemToToggle.classList.add('display')
@@ -138,9 +136,7 @@ const toggleDisplayOnMouseEnterAndLeave = (location, itemToToggle) => {
         itemToToggle.classList.remove('display')
     }, false);
 }
-
 //----------------------------------------------------------------------//
-
 const removeCheckWhenClikingCategory = (categoryBtn) => {
     const input        = document.getElementById('nav-input')
     const humbergerBtn = document.getElementById('nav-open')
@@ -148,14 +144,13 @@ const removeCheckWhenClikingCategory = (categoryBtn) => {
     humbergerBtn.addEventListener('click', () => {
         input.setAttribute('class', 'nav-input');
     });
+
     categoryBtn.addEventListener('click', () => {
         input.removeAttribute('class')
         input.checked = false
     });
 }
-
 //----------------------------------------------------------------------//
-
 const openModal = (modal) => {
     if (modal.classList.contains("display-modal")) {
         modal.classList.remove("display-modal");
@@ -163,15 +158,65 @@ const openModal = (modal) => {
         modal.classList.add("display-modal");
     };
 }
-
 //----------------------------------------------------------------------//
-
-
-const changeId = (targetId, newId) => {
-    document.getElementById(targetId).id = newId
+const openEditCategoryModal = (categories, i) => {
+    const catModal = document.getElementById("cat-modal")
+                     openModal(catModal)
+    document.getElementById('category-modal-title').textContent = 'Edit Category Name'
+    document.getElementById('category-input').value             = categories[i]
+    document.getElementById('add-category').id = 'edit-category'
 }
-
 //----------------------------------------------------------------------//
+const saveEditedCategoryName = (categories, words, storage, i) => {
+    const newCategoryName = document.getElementById('category-input').value
+    const categoryAlert   = document.getElementById("alert-success-c")
+
+    if (categories.indexOf(newCategoryName) === -1) {
+        for (let j in words) {
+            if (words[j].category === categories[i]) {
+                words[j].category = newCategoryName
+            }
+        }
+        categories[i] = newCategoryName
+        chrome.storage.local.set(storage)
+        document.getElementById('edit-category').id = 'add-category'
+        categoryAlert.classList.add('alert-success')
+        categoryAlert.textContent = 'Successfully edited.';
+    } else {
+        categoryAlert.classList.add('alert-danger')
+        categoryAlert.textContent = 'This category name already exists.';
+    }
+    showAlert(categoryAlert);
+}
+//----------------------------------------------------------------------//
+const displaySelectedWordsByCategory = (words, i) => {
+    const wordsList = document.getElementById('words-ul')
+    const keyword   = document.getElementById(`submit${i}`).textContent
+    let   result    = {};
+
+    while (wordsList.firstChild) {
+        wordsList.removeChild(wordsList.firstChild)
+    }
+
+    for (let j in words) {
+        if ( words[j].category === keyword ) {
+            result[j] = words[j];
+        }
+    }
+    displayWords(result)                
+}
+//----------------------------------------------------------------------//
+const showAlert = (alert) => {
+    alert.style.display = "flex";
+    setTimeout(function() { 
+        clearAlert(alert) 
+    }, 3000);
+}
+//----------------------------------------------------------------------//
+const clearAlert = (alert) => {
+    alert.style.display = "none";
+    alert.classList.remove('alert-danger')
+}
 
 
 chrome.storage.local.get(null, (items) => {
@@ -183,46 +228,6 @@ chrome.storage.local.get(null, (items) => {
 
 });
 
-
-// Display all words (default)
-chrome.storage.local.get({ wordInfo:[] }, (items) => {
-    displayWords(items, items.wordInfo, items.wordInfo);
-});
-
-// Display words depends on category
-chrome.storage.local.get({ catData:[] }, (items) => {
-    
-    for( let h = 0; h < items.catData.length; h++ ) {
-
-        // Word list sorted by Category
-        document.getElementById(`cat-form${h}`).onsubmit = () => {
-
-            const removeItems = document.getElementById('words-ul')
-            while (removeItems.firstChild) {
-                removeItems.removeChild(removeItems.firstChild)
-            }
-
-            chrome.storage.local.get({ wordInfo:[] }, (items) => {
-
-                const keyword = document.getElementById(`submit${h}`).textContent
-                const allItems = items.wordInfo;
-                let result = {};
-
-                for (let i in allItems) {
-                    if ( allItems[i].category === keyword ) {
-                        result[i] = allItems[i];
-                    }
-                }
-                displayWords(items, items.wordInfo, result);
-
-            });
-                
-            return false
-        };
-    
-    }
-
-});
 
 const OpenForm = (btn, form) => {
     btn.addEventListener("click", () => {
@@ -289,3 +294,4 @@ meaningSample.addEventListener("mouseenter", () => {
 meaningSample.addEventListener("mouseleave", () => {
     meaningDescription.classList.remove('display-block')
 }, false);
+
