@@ -1,18 +1,7 @@
-const showAlert = (alert) => {
-    alert.style.display = "flex";
-    setTimeout(function() { 
-        clearAlert(alert) 
-    }, 3000);
-}
-
-    const clearAlert = (alert) => {
-        alert.style.display = "none";
-        alert.classList.remove('alert-danger')
-    }
 
 const saveWord = (items) => {
     // Get the vocaburary
-    let vocab = document.getElementById('vocabulary').value;
+    const vocab = document.getElementById('vocabulary').value;
     const wordAlert = document.getElementById("alert-success-w")
     // init array
     if(!items.wordInfo){
@@ -78,36 +67,24 @@ const saveWord = (items) => {
 }
 
 
-const displayWords = (root, location, storage) => {
+const displayWords = (storage) => {
     // O(n)
     const wordUl = document.getElementById('words-ul')
-
-    if (Object.entries(storage).length === 0) {
-        ///.introduction-top,
-        //.sample-w,
-        //.introduction-bottom
-        const introTop = document.querySelector('.introduction-top')
-        const introSample = document.querySelector('.sample-w')
-        const introBtm = document.querySelector('.introduction-bottom')
-              introTop.classList.add('display-block')
-              introSample.classList.add('display-flex')
-              introBtm.classList.add('display-block')
-    }
 
     for( let i in storage ) {
         // <li>
         const wordLi = document.createElement('li')
-              wordLi.setAttribute('class', 'flexbox')
+                       wordLi.setAttribute('class', 'flexbox')
 
         // First <p> word
         const wordPara1 = document.createElement('div')
-              wordPara1.setAttribute('class', 'main-word')
-              wordPara1.setAttribute('id', `main-word-${i}`)
-              wordPara1.textContent = i
+                          wordPara1.setAttribute('class', 'main-word')
+                          wordPara1.setAttribute('id', `main-word-${i}`)
+                          wordPara1.textContent = i
         // <div> for tag's <span>
         const tagDiv = document.createElement('div')
-              tagDiv.setAttribute('class', 'tagDiv')
-              tagDiv.setAttribute('id', `tagDiv${i}`)
+                       tagDiv.setAttribute('class', 'tagDiv')
+                       tagDiv.setAttribute('id', `tagDiv${i}`)
 
         wordUl.appendChild(wordLi)
         wordLi.appendChild(wordPara1)
@@ -117,31 +94,31 @@ const displayWords = (root, location, storage) => {
         for (let j = 0; j < storage[i].tag.length; j++ ) {
             const divTag = document.getElementById(`tagDiv${i}`)
             const tagSpan = document.createElement('span')
-                  tagSpan.textContent = storage[i].tag[j]
-                  tagSpan.setAttribute('class', 'badge badge-pill badge-success')
-                  divTag.appendChild(tagSpan)
+                            tagSpan.textContent = storage[i].tag[j]
+                            tagSpan.setAttribute('class', 'badge badge-pill badge-success')
+                            divTag.appendChild(tagSpan)
         }
         // Second <p> meaning
         const wordPara2 = document.createElement('div')
-              wordPara2.textContent = storage[i].meanings
-              wordPara2.setAttribute('class', 'main-meaning')
-              wordPara2.setAttribute('id', `main-meaning${i}`)
+                          wordPara2.textContent = storage[i].meanings
+                          wordPara2.setAttribute('class', 'main-meaning')
+                          wordPara2.setAttribute('id', `main-meaning${i}`)
 
         wordLi.appendChild(wordPara2)
         
         // Delete button
         const deleteBtn = document.createElement('button')
-              deleteBtn.setAttribute('type', 'submit')
-              deleteBtn.setAttribute('id', `delete-btn${i}`)
-              deleteBtn.setAttribute('class', 'delete-btn')
+                          deleteBtn.setAttribute('type', 'submit')
+                          deleteBtn.setAttribute('id', `delete-btn${i}`)
+                          deleteBtn.setAttribute('class', 'delete-btn')
 
         wordLi.appendChild(deleteBtn)
     
         // Edit button
         const editSubmit = document.createElement('button')
-              editSubmit.setAttribute('type', 'submit')
-              editSubmit.setAttribute('id', `edit-submit-btn${i}`)
-              editSubmit.setAttribute('class', 'edit-submit-btn')
+                          editSubmit.setAttribute('type', 'submit')
+                          editSubmit.setAttribute('id', `edit-submit-btn${i}`)
+                          editSubmit.setAttribute('class', 'edit-submit-btn')
 
         wordLi.appendChild(editSubmit)
 
@@ -222,7 +199,6 @@ const displayWords = (root, location, storage) => {
             });
 
             document.getElementById('cancel-form').onsubmit = () => {
-
                 if ( document.getElementById('edit-word-form') ) {
                     document.getElementById('edit-word-form').id = 'add-word-form'
                     // Close the pull down window
@@ -230,17 +206,13 @@ const displayWords = (root, location, storage) => {
                 } else {
                     wordForm.classList.remove("display-modal");
                 }
-
             }
 
             // Set data into storage.local
             document.getElementById('edit-word-form').onsubmit = () => {
-
                 chrome.storage.local.get(null, (items) => {
-
                     delete items.wordInfo[i]
                     saveWord(items); 
-
                 });
 
                 const wordAlert = document.getElementById("alert-success-w")
@@ -256,5 +228,4 @@ const displayWords = (root, location, storage) => {
         });
 
     }
-
 }
