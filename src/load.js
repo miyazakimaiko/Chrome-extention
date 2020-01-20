@@ -1,19 +1,4 @@
 
-class WordList {
-    constructor() {
-        this.wordInfo = {};
-    }
-}
-
-class word {
-    constructor(word) {
-        this.keys = word
-        this.id = 0
-        this.meaning = null
-        this.tags = []
-        this.category = null
-    }
-}
 
 //----------------------------------------------------------------------//
 
@@ -24,8 +9,7 @@ chrome.storage.local.get(null, (items) => {
 
     if (words === undefined || Object.keys(words).length === 0) {
         displayIntroduction();
-        const CreateWordList = new WordList
-        chrome.storage.local.set(CreateWordList)
+        items.wordInfo = {};
     } else {
         displayWords(words);
     }
@@ -55,6 +39,83 @@ chrome.storage.local.get(null, (items) => {
                 return false;
             };
         }
+    }
+
+    for (let i in words) {
+        document.getElementById(`delete-btn${i}`).addEventListener("click", () => {
+            displayWarningForDeletion(i)
+            deleteWord(items, words, i)
+        });
+
+        document.getElementById(`edit-submit-btn${i}`).addEventListener("click", () => {
+            
+            const wordForm = document.getElementById("word-modal")
+            if (wordForm.classList.contains("display-modal")) {
+                wordForm.classList.remove("display-modal");
+            } else if (!wordForm.classList.contains("display-modal")) {
+                wordForm.classList.add("display-modal");
+            };
+                  
+            // Change ID so the form can send different way
+            document.getElementById('add-word-form').id = 'edit-word-form'
+            document.getElementById ('word-modal-title').innerHTML = 'Edit the word'
+            // Display data related to the button that is submitted
+            //// ID
+            document.getElementById('id-sender').value = words[i].id
+            //// word
+            document.getElementById('vocabulary').value = i
+            //// meaning
+            document.getElementById('meaning-textarea').value = words[i].meanings
+            //// tag
+            // O(n2)
+            for (let k = 0; k < items.tagData.length; k++ ) {
+
+                const a = items.tagData[k]
+                //O(n3)
+                for (let l = 0; l < words[i].tag.length; l++ ) {
+                    const b = words[i].tag[l]
+                    if ( a === b ) {
+                        document.getElementById(`tag${k}-input`).checked = true
+                    }
+                }
+                
+            }
+
+            //// category
+            for (let k = 0; k < items.catData.length; k++ ) {
+                const a = items.catData[k]
+                const b = words[i].category
+                if ( a === b ) {
+                    document.getElementById(`cat${k}-input`).checked = true
+                }
+            }
+
+            document.getElementById('cancel-form').onsubmit = () => {
+                if ( document.getElementById('edit-word-form') ) {
+                    document.getElementById('edit-word-form').id = 'add-word-form'
+                    // Close the pull down window
+                    wordForm.classList.remove("display-modal");
+                } else {
+                    wordForm.classList.remove("display-modal");
+                }
+            }
+
+            // Set data into storage.local
+            document.getElementById('edit-word-form').onsubmit = () => {
+                delete items.wordInfo[i]
+                saveWord(items); 
+
+                const wordAlert = document.getElementById("alert-success-w")
+                wordAlert.classList.add('alert-success')
+                wordAlert.innerHTML = 'Successfully edited.';
+                showAlert(wordAlert);
+                
+                const putBackWordForm = document.getElementById('edit-word-form')
+                putBackWordForm.id = 'add-word-form'
+                return false;
+            }
+  
+        });
     }
 });
 
@@ -216,6 +277,23 @@ const showAlert = (alert) => {
 const clearAlert = (alert) => {
     alert.style.display = "none";
     alert.classList.remove('alert-danger')
+}
+
+const displayWarningForDeletion = (i) => {
+    const deleteForm = document.getElementById("delete-modal")
+    if (deleteForm.classList.contains("display-modal")) {
+        deleteForm.classList.remove("display-modal");
+    } else if (!deleteForm.classList.contains("display-modal")) {
+        deleteForm.classList.add("display-modal");
+        document.querySelector(".delete-message").innerHTML = `Are you sure to delete a word [${i}] ?`;
+    };
+}
+
+const deleteWord = (items, words, i) => {
+    document.getElementById('delete-word-form').onsubmit = () => {
+        delete words[i];
+        chrome.storage.local.set(items);
+    }
 }
 
 
