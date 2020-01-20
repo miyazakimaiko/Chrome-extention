@@ -2,13 +2,14 @@ html {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    -webkit-backface-visibility:hidden;
+    backface-visibility:hidden;
 }
 
 body {
     font-family: 'Lato', sans-serif;
     position: relative;
     display: inline-table;
-    min-height: 100%;
     top: 0;
     right: 0;
     margin: 0;
@@ -18,6 +19,12 @@ body {
     height: 101vh;
     overflow: hidden;
     background-color: #FBFCF0;
+    -webkit-backface-visibility:hidden;
+    backface-visibility:hidden;
+}
+
+body::-webkit-scrollbar {
+    display: none;
 }
 
 button, input, textarea {
@@ -37,6 +44,7 @@ header {
     background: #fff;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     position: static;
     top: 0;
     right: 0;
@@ -178,7 +186,9 @@ header {
 }
 
 .tag-cat-btn-wrapper {
-    display: inline;
+    width: 75vw;
+    display: flex;
+    justify-content: space-around;
 }
 
 #alert-success-t,
@@ -190,11 +200,12 @@ main {
     z-index: -1;
     padding-top: 60px;
     min-height: 100%;
-    height: 100vh;
+    height: 101vh;
     width: 100%;
 }
 
 .words-ul {
+    min-height: 100vh;
     padding: 0 15px;
     list-style: none;
 }
@@ -212,6 +223,7 @@ main {
 .flexbox:hover {
     transform: scale(1.03);
     box-shadow: 0 0 6px lightsteelblue;
+    z-index: 99;
 }
 
 
@@ -229,13 +241,34 @@ main {
     line-height: 1.1rem;
 }
 
-.edit-submit-form {
+.edit-submit-btn {
+    display: none;
     position: absolute;
-    bottom: 0;
-    right: 0;
+    right: 4px;
+    bottom: 2px;
+    border: none;
+    background: content-box;
+    border: none;
+    cursor: pointer;
+    color: #8E8E8E;
+    font-size: .8rem;
+}
+.edit-submit-btn::after {
+    background-image: url(./edit.png);
+    background-repeat: no-repeat;
+    background-size: 13px 13px;
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    content: "";
 }
 
-.edit-submit-btn {
+.delete-btn {
+    display: none;
+    position: absolute;
+    right: 4px;
+    top: 8px;
+    border: none;
     background: content-box;
     border: none;
     cursor: pointer;
@@ -243,17 +276,27 @@ main {
     font-size: .8rem;
 }
 
-.edit-span {
-    display: none;
-    text-decoration: underline;
+.delete-btn::after {
+    background-image: url(./delete.png);
+    background-repeat: no-repeat;
+    background-size: 13px 13px;
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    content: "";
+}
+
+.delete-message {
+    text-align: center;
+    margin-top: 16px;
 }
 
 .display {
-    display: inline;
+    display: inline !important;
 }
 
 .content-container {
-    padding: 60px 30px 0;
+    padding: 10px 30px;
 }
 
 .content-titles {
@@ -296,19 +339,23 @@ main {
     color: inherit;
 }
 
-.tag-modal {
+.display-modal {
     display: flex !important;
     justify-content: center;
     align-items: center;
     background: rgba(0,0,0,0.5)
 }
 
+.tag-container-wrapper,
+.category-container-wrapper {
+    max-height: 90px;
+    overflow: scroll;
+}
+
 .tag-container {
     display: flex;
     flex-wrap: wrap;
     padding-bottom: 15px;
-    border: dashed #707070;
-    border-width: 0px 0px 1px 0px;
 }
 
 .tag-container div input {
@@ -318,10 +365,10 @@ main {
 }
 
 .tag-container div label {
-    margin: 5px;
-    padding: 3px 10px;
+    margin: 4px;
+    padding: 0px 5px;
     background: white;
-    border-radius: 15px;
+    border-radius: 10px;
     position: relative;
     transition: .2s;
     cursor: pointer;
@@ -373,6 +420,10 @@ main {
 # 
 */
 
+.category-nav-wrapper {
+    display: flex;
+}
+
 .category-btn {
     border: none;
     background: content-box;
@@ -380,32 +431,51 @@ main {
     font-size: 0.8rem;
 }
 
-.add-container {
-    display: flex;
-    flex-direction: column;
-    margin-top: 15px;
+.cat-edit-btn {
+    display: none;
+    background: none;
+    border: none;
+    text-decoration-line: underline;
 }
 
-.category-input,
-.tag-input {
-    padding: 5px 20px;
-    width: 100%;
-    font-size: 1rem;
-    border: dashed #707070;
-    border-width: 0px 0px 1px 0px;
-    box-sizing: border-box;
-    background: unset;
-    text-decoration: none;
-    outline: none;
+/*sample word styles*/
+.introduction-top,
+.sample-w,
+.introduction-bottom {
+    display: none;
 }
 
-.add-container div {
-    display: flex;
+.introduction-top h1 {
+    font-size: 1rem !important;
 }
 
-.add-container button {
-    width: fit-content;
-    margin: 10px 0 0 10px;
-    padding: 5px 10px;
-    cursor: pointer;
+#main-word-Sample1795237,
+#tagDivSample1795237,
+#main-meaningSample1795237 {
+    position: relative;
+}
+
+#main-word-description,
+#tag-description,
+#meaning-description {
+    display: none;
+    position: absolute;
+    padding: 10px;
+    background: #555;
+    font-size: .8rem;
+    color: white;
+    z-index: 999;
+    width: 60vw;
+}
+#main-word-description p {
+    margin: 0;
+    white-space: normal;
+}
+
+.display-block {
+    display: block !important;
+}
+
+.display-flex {
+    display: flex !important;
 }

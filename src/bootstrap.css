@@ -5262,6 +5262,7 @@ a.badge-dark:focus, a.badge-dark.focus {
 }
 
 .alert {
+  display: none;
   position: relative;
   padding: 0.75rem 1.25rem;
   margin-bottom: 1rem;
