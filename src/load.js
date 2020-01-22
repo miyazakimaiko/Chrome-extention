@@ -1,11 +1,11 @@
-
-
-//----------------------------------------------------------------------//
-
 chrome.storage.local.get(null, (items) => {
     const words      = items.wordInfo
     const tags       = items.tagData
     const categories = items.catData
+
+    console.log(words)
+    console.log(tags)
+    console.log(categories)
 
     if (words === undefined || Object.keys(words).length === 0) {
         displayIntroduction();
@@ -48,70 +48,27 @@ chrome.storage.local.get(null, (items) => {
         });
 
         document.getElementById(`edit-submit-btn${i}`).addEventListener("click", () => {
-            
-            const wordForm = document.getElementById("word-modal")
-            if (wordForm.classList.contains("display-modal")) {
-                wordForm.classList.remove("display-modal");
-            } else if (!wordForm.classList.contains("display-modal")) {
-                wordForm.classList.add("display-modal");
-            };
-                  
-            // Change ID so the form can send different way
-            document.getElementById('add-word-form').id = 'edit-word-form'
-            document.getElementById ('word-modal-title').innerHTML = 'Edit the word'
-            // Display data related to the button that is submitted
-            //// ID
-            document.getElementById('id-sender').value = words[i].id
-            //// word
-            document.getElementById('vocabulary').value = i
-            //// meaning
-            document.getElementById('meaning-textarea').value = words[i].meanings
-            //// tag
-            // O(n2)
-            for (let k = 0; k < items.tagData.length; k++ ) {
+            const wordModal = document.getElementById("word-modal")
+            openModal(wordModal)      
+            fillEditWordFormWithCurrentData(items, i)
 
-                const a = items.tagData[k]
-                //O(n3)
-                for (let l = 0; l < words[i].tag.length; l++ ) {
-                    const b = words[i].tag[l]
-                    if ( a === b ) {
-                        document.getElementById(`tag${k}-input`).checked = true
-                    }
-                }
-                
-            }
-
-            //// category
-            for (let k = 0; k < items.catData.length; k++ ) {
-                const a = items.catData[k]
-                const b = words[i].category
-                if ( a === b ) {
-                    document.getElementById(`cat${k}-input`).checked = true
-                }
-            }
-
+            const FormForEditingWordData = document.getElementById('edit-word-form')
             document.getElementById('cancel-form').onsubmit = () => {
-                if ( document.getElementById('edit-word-form') ) {
-                    document.getElementById('edit-word-form').id = 'add-word-form'
-                    // Close the pull down window
-                    wordForm.classList.remove("display-modal");
-                } else {
-                    wordForm.classList.remove("display-modal");
+                if (FormForEditingWordData) {
+                    FormForEditingWordData.id = 'add-word-form'
                 }
+                wordModal.classList.remove("display-modal")
             }
 
-            // Set data into storage.local
-            document.getElementById('edit-word-form').onsubmit = () => {
-                delete items.wordInfo[i]
-                saveWord(items); 
-
+            FormForEditingWordData.onsubmit = () => {
                 const wordAlert = document.getElementById("alert-success-w")
-                wordAlert.classList.add('alert-success')
-                wordAlert.innerHTML = 'Successfully edited.';
+                                  wordAlert.classList.add('alert-success')
+                                  wordAlert.innerHTML = 'Successfully edited.'
                 showAlert(wordAlert);
-                
-                const putBackWordForm = document.getElementById('edit-word-form')
-                putBackWordForm.id = 'add-word-form'
+                FormForEditingWordData.id = 'add-word-form'
+
+                delete words[i]
+                saveWord(items); 
                 return false;
             }
   
@@ -127,6 +84,28 @@ const displayIntroduction = () => {
                         introTop.classList.add('display-block')
                         introSample.classList.add('display-flex')
                         introBtm.classList.add('display-block')
+
+    const mainWordSample      = document.getElementById("main-word-Sample1795237")
+    const mainWordDescription = document.getElementById("main-word-description")
+    showElementOnMouseEnter(mainWordSample, mainWordDescription)
+    
+    const tagSample      = document.getElementById("tagDivSample1795237")
+    const tagDescription = document.getElementById("tag-description")
+    showElementOnMouseEnter(tagSample, tagDescription)
+    
+    const meaningSample      = document.getElementById("main-meaningSample1795237")
+    const meaningDescription = document.getElementById("meaning-description")
+    showElementOnMouseEnter(meaningSample, meaningDescription)
+                        
+}
+//----------------------------------------------------------------------//
+const showElementOnMouseEnter = (area, element) => {
+    area.addEventListener("mouseenter", () => {
+        element.classList.add('display-block')
+    }, false);
+    area.addEventListener("mouseleave", () => {
+        element.classList.remove('display-block')
+    }, false);
 }
 //----------------------------------------------------------------------//
 const displayTagsInAddWordPage = (item, index) => {
@@ -278,7 +257,7 @@ const clearAlert = (alert) => {
     alert.style.display = "none";
     alert.classList.remove('alert-danger')
 }
-
+//----------------------------------------------------------------------//
 const displayWarningForDeletion = (i) => {
     const deleteForm = document.getElementById("delete-modal")
     if (deleteForm.classList.contains("display-modal")) {
@@ -288,25 +267,44 @@ const displayWarningForDeletion = (i) => {
         document.querySelector(".delete-message").innerHTML = `Are you sure to delete a word [${i}] ?`;
     };
 }
-
+//----------------------------------------------------------------------//
 const deleteWord = (items, words, i) => {
     document.getElementById('delete-word-form').onsubmit = () => {
         delete words[i];
         chrome.storage.local.set(items);
     }
 }
+//----------------------------------------------------------------------//
+const fillEditWordFormWithCurrentData = (items, i) => {
+    const words      = items.wordInfo
+    const tags       = items.tagData
+    const categories = items.catData
 
+    document.getElementById('add-word-form').id = 'edit-word-form'
+    document.getElementById('word-modal-title').innerHTML = 'Edit the word'
+    document.getElementById('id-sender').value = words[i].id
+    document.getElementById('vocabulary').value = i
+    document.getElementById('meaning-textarea').value = words[i].meanings
 
-chrome.storage.local.get(null, (items) => {
-    console.log(items.countId)
-    let words = items.wordInfo;
-    console.log(words)
-    console.log(items.catData)
-    console.log(items.tagData)
+    for (let k = 0; k < tags.length; k++ ) {
+        const a = tags[k]
+        for (let l = 0; l < words[i].tag.length; l++ ) {
+            const b = words[i].tag[l]
+            if ( a === b ) {
+                document.getElementById(`tag${k}-input`).checked = true
+            }
+        }
+    }
 
-});
-
-
+    for (let k = 0; k < categories.length; k++ ) {
+        const a = categories[k]
+        const b = words[i].category
+        if ( a === b ) {
+            document.getElementById(`cat${k}-input`).checked = true
+        }
+    }
+}
+//----------------------------------------------------------------------//
 const OpenForm = (btn, form) => {
     btn.addEventListener("click", () => {
         if (form.classList.contains("display-modal")) {
@@ -318,58 +316,31 @@ const OpenForm = (btn, form) => {
 }
 
 const addWordOpenBtn = document.getElementById("add-word-form-open-btn");
-const wordForm = document.getElementById("word-modal")
+const wordForm       = document.getElementById("word-modal")
 OpenForm(addWordOpenBtn, wordForm);
 
 const addWordCloseBtn = document.querySelector(".word-close-btn")
 OpenForm(addWordCloseBtn, wordForm)
 
 const tagOpenBtn = document.getElementById("tag-form-open-btn");
-const tagForm = document.getElementById("tag-modal");
+const tagForm    = document.getElementById("tag-modal");
 OpenForm(tagOpenBtn, tagForm);
 
 const tagCloseBtn = document.querySelector(".tag-close-btn")
 OpenForm(tagCloseBtn, tagForm);
 
 const catOpenBtn = document.getElementById("cat-form-open-btn");
-const catForm = document.getElementById("cat-modal");
+const catForm    = document.getElementById("cat-modal");
 OpenForm(catOpenBtn, catForm);
 
 const catCloseBtn = document.querySelector(".cat-close-btn")
 OpenForm(catCloseBtn, catForm);
 
 const deleteCloseBtn = document.querySelector(".delete-close-btn")
-const deleteForm = document.getElementById("delete-modal")
+const deleteForm     = document.getElementById("delete-modal")
 OpenForm(deleteCloseBtn, deleteForm)
 
 const deleteCancelBtn = document.getElementById("delete-cancel-btn")
 OpenForm(deleteCancelBtn, deleteForm)
 
-
-const mainWordSample = document.getElementById("main-word-Sample1795237")
-const mainWordDescription = document.getElementById("main-word-description")
-mainWordSample.addEventListener("mouseenter", () => {
-    mainWordDescription.classList.add('display-block')
-}, false);
-mainWordSample.addEventListener("mouseleave", () => {
-    mainWordDescription.classList.remove('display-block')
-}, false);
-
-const tagSample = document.getElementById("tagDivSample1795237")
-const tagDescription = document.getElementById("tag-description")
-tagSample.addEventListener("mouseenter", () => {
-    tagDescription.classList.add('display-block')
-}, false);
-tagSample.addEventListener("mouseleave", () => {
-    tagDescription.classList.remove('display-block')
-}, false);
-
-const meaningSample = document.getElementById("main-meaningSample1795237")
-const meaningDescription = document.getElementById("meaning-description")
-meaningSample.addEventListener("mouseenter", () => {
-    meaningDescription.classList.add('display-block')
-}, false);
-meaningSample.addEventListener("mouseleave", () => {
-    meaningDescription.classList.remove('display-block')
-}, false);
 
