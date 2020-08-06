@@ -2,7 +2,7 @@
   "name": "Vocab Note",
   "description": "It's your customizable vocabulary notebook. You can create your own vocabulary list.",
   "author": "Maiko Miyazaki",
-  "version": "1.2.2",
+  "version": "1.2.4",
   "manifest_version": 2,
   "browser_action":{
     "default_title": "Vocab Note",
@@ -14,7 +14,6 @@
     "128": "vocabnote_128.png"
   },
   "permissions": [
-    "activeTab",
     "storage"
   ]
 }
