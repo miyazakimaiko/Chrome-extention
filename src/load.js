@@ -1,80 +1,44 @@
 chrome.storage.local.get(null, (items) => {
-    const words      = items.wordInfo
-    const tags       = items.tagData
-    const categories = items.catData
 
-    console.log(words)
-    console.log(tags)
-    console.log(categories)
-
-    if (words === undefined || Object.keys(words).length === 0) {
+    if (items.wordInfo === undefined || Object.keys(items.wordInfo).length === 0) {
         displayIntroduction();
         items.wordInfo = new Map();
+        items.wordInfo.set('key', 'val')
+        console.log(items.wordInfo)
+
     } else {
-        displayWords(words);
+        displayWords(items, items.wordInfo);
     }
 
-    if (tags === undefined) {
+    if (items.tagData === undefined) {
         items.tagData = []
     } else {
-        for(let i = 0; i < tags.length; i++ ) {
-            displayTagsInAddWordPage(tags, i);
+        for(let i = 0; i < items.tagData.length; i++ ) {
+            displayTagsInAddWordPage(items.tagData, i);
         }
     }
 
-    if (categories === undefined) {
+    if (items.catData === undefined) {
         items.catData = []
     } else {
-        for(let i = 0; i < categories.length; i++ ) {
-            displayCategoriesInAddWordPage(categories, i)
-            displayCategoriesInNaviPage(categories, i)
+        for(let i = 0; i < items.catData.length; i++ ) {
+            displayCategoriesInAddWordPage(items.catData, i)
+            displayCategoriesInNaviPage(items.catData, i)
 
             document.getElementById(`cat-edit-btn${i}`).addEventListener("click", () => {
-                openEditCategoryModal(categories, i)
+                openEditCategoryModal(items.catData, i)
 
                 document.getElementById('edit-category').onsubmit = () => {
-                    saveEditedCategoryName(categories, words, items, i)
+                    saveEditedCategoryName(items.catData, items.wordInfo, items, i)
                     return false;
                 }
             });
 
             document.getElementById(`cat-form${i}`).onsubmit = () => {
-                displaySelectedWordsByCategory(words, i);
+                displaySelectedWordsByCategory(items, items.wordInfo, i);
                 return false;
             };
         }
-    }
-
-    for (let i in words) {
-        document.getElementById(`delete-btn${i}`).addEventListener("click", () => {
-            displayWarningForDeletion(i)
-            deleteWord(items, words, i)
-        });
-
-        document.getElementById(`edit-submit-btn${i}`).addEventListener("click", () => {
-            const wordModal = document.getElementById("word-modal")
-            openModal(wordModal)      
-            fillEditWordFormWithCurrentData(items, i)
-
-            const FormForEditingWordData = document.getElementById('edit-word-form')
-            document.getElementById('cancel-form').onsubmit = () => {
-                if (FormForEditingWordData) {
-                    FormForEditingWordData.id = 'add-word-form'
-                }
-                wordModal.classList.remove("display-modal")
-            }
-
-            FormForEditingWordData.onsubmit = () => {
-                delete words[i]
-                saveWord(items)
-                const wordAlert = document.getElementById("alert-success-w")
-                                  wordAlert.classList.add('alert-success')
-                                  wordAlert.innerHTML = 'Successfully edited.'
-                showAlert(wordAlert)
-                return false
-            }
-  
-        });
     }
 
     document.getElementById('add-word-form').onsubmit = () => {    
@@ -89,8 +53,8 @@ chrome.storage.local.get(null, (items) => {
             alert.classList.add('alert-danger')
             alert.textContent = "Please fill the form.";
         }
-        else if (tags.indexOf(newTag) === -1 ) {
-            tags.push(newTag)
+        else if (items.tagData.indexOf(newTag) === -1) {
+            items.tagData.push(newTag)
             chrome.storage.local.set(items)
             alert.classList.add('alert-success')
             alert.textContent = `Successfully added a tag [${newTag}].`
@@ -109,8 +73,8 @@ chrome.storage.local.get(null, (items) => {
             alert.classList.add('alert-danger')
             alert.textContent = "Please fill the form.";
         }
-        else if (categories.indexOf(newCat) === -1 ) {
-            categories.push(newCat);
+        else if (items.catData.indexOf(newCat) === -1 ) {
+            items.catData.push(newCat);
             chrome.storage.local.set(items);
             alert.classList.add('alert-success')
             alert.textContent = `Successfully added a category [${newCat}].`;

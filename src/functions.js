@@ -76,7 +76,7 @@ const fetchAndSaveCategory = (newWord) => {
     }
 }
 //======================================================================//
-const displayWords = (storage) => {
+const displayWords = (items, storage) => {
     const parentUl = document.getElementById('words-ul')
 
     for( let i in storage ) {
@@ -85,6 +85,36 @@ const displayWords = (storage) => {
 
         displayWordTagAndDefinition(storage, parentUl, parentLi, i)
         displayDeleteAndEditButton(parentLi, i)
+
+        document.getElementById(`delete-btn${i}`).addEventListener("click", () => {
+            displayWarningForDeletion(i)
+            deleteWord(items, items.wordInfo, i)
+        });
+
+        document.getElementById(`edit-submit-btn${i}`).addEventListener("click", () => {
+            const wordModal = document.getElementById("word-modal")
+            openModal(wordModal)      
+            fillEditWordFormWithCurrentData(items, i)
+
+            const FormForEditingWordData = document.getElementById('edit-word-form')
+            document.getElementById('cancel-form').onsubmit = () => {
+                if (FormForEditingWordData) {
+                    FormForEditingWordData.id = 'add-word-form'
+                }
+                wordModal.classList.remove("display-modal")
+            }
+
+            FormForEditingWordData.onsubmit = () => {
+                delete items.wordInfo[i]
+                saveWord(items)
+                const wordAlert = document.getElementById("alert-success-w")
+                                  wordAlert.classList.add('alert-success')
+                                  wordAlert.textContent = 'Successfully edited.'
+                showAlert(wordAlert)
+                return false
+            }
+  
+        });
     }
 }
 //----------------------------------------------------------------------//
@@ -297,8 +327,8 @@ const saveEditedCategoryName = (categories, words, storage, i) => {
     }
     showAlert(categoryAlert);
 }
-//----------------------------------------------------------------------//
-const displaySelectedWordsByCategory = (words, i) => {
+//----------------------------------------------------------------------//　//----------------------------------------------------------------------//
+const displaySelectedWordsByCategory = (items, words, i) => {
     const wordsList = document.getElementById('words-ul')
     const keyword   = document.getElementById(`submit${i}`).textContent
     let   result    = {};
@@ -312,7 +342,7 @@ const displaySelectedWordsByCategory = (words, i) => {
             result[j] = words[j];
         }
     }
-    displayWords(result)                
+    displayWords(items, result)                
 }
 //----------------------------------------------------------------------//
 const showAlert = (alert) => {
